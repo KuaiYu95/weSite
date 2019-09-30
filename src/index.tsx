@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';
 import * as serviceWorker from './serviceWorker';
+import Home from './components/Home/Home'
 
 ReactDOM.render((
   <div>
-    ky
+    <Home />
   </div>
 ), document.getElementById('root'));
 
