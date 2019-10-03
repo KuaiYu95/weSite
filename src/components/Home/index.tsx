@@ -1,6 +1,7 @@
 import React from 'react'
-import './Home.less'
 import {Button} from 'antd'
+import { Link } from 'react-router-dom'
+import './index.less'
 
 function Home() {
   return (
@@ -9,7 +10,9 @@ function Home() {
         welcome to our site
       </div>
       <div className="block">
-        <Button>蒯爸爸</Button>
+        <Button>
+          <Link  to="/ky">蒯爸爸</Link>
+        </Button>
         <Button>闫狗子</Button>
       </div>
       
