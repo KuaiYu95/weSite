@@ -1,19 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Home from './components/Home'
-import Ky from './components/Ky'
+import { BrowserRouter, Route } from 'react-router-dom'
+import Main from './containers/Main'
 import './index.less'
 import * as serviceWorker from './serviceWorker'
 
 ReactDOM.render((
   <BrowserRouter>
-    <Switch>
-      <React.Suspense fallback={<div>loading...</div>}>
-        <Route path='/ky' component={Ky}></Route>
-        <Route path='/' component={Home}></Route>
-      </React.Suspense>
-    </Switch>
+    <React.Suspense fallback={<div>loading...</div>}>
+      <Route path='/' component={Main}></Route>
+    </React.Suspense>
   </BrowserRouter>
 ), document.getElementById('root'))
 
