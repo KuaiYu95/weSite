@@ -1,10 +1,10 @@
 import React from 'react'
 import { Carousel, Descriptions, Icon, Statistic, Row, Col } from 'antd'
-import p1 from '../../asserts/pictures/5.jpeg'
-import p2 from '../../asserts/pictures/6.jpeg'
-import p3 from '../../asserts/pictures/7.jpeg'
-import p4 from '../../asserts/pictures/1.jpeg'
-import p5 from '../../asserts/pictures/we.jpeg'
+import p1 from '../../asserts/images/5.jpg'
+import p2 from '../../asserts/images/4.jpg'
+import p3 from '../../asserts/images/3.jpg'
+import p4 from '../../asserts/images/1.jpg'
+import p5 from '../../asserts/images/2.jpg'
 import wxfkm from '../../asserts/money/wx.jpg'
 import zfbfkm from '../../asserts/money/zfb.jpg'
 import './index.less'
@@ -57,7 +57,7 @@ class User extends React.Component {
           </Descriptions>
         </div>
         <div className="test2">
-          <p style={{fontSize: 16, color: '#F45C24', marginLeft: 48}}>有钱的捧个钱场，没钱的捧个气场，嘿嘿 😁</p>
+          <p style={{fontSize: 18, color: '#F45C24', marginLeft: 48, fontFamily: 'cursive'}}>{saohua[(Math.random() * 100 | 0) % 20]} (Tips: 扫码有惊喜哦)</p>
           <span style={{marginLeft: 304, marginRight: 32}}>微信：</span><img style={{width: 100}} src={wxfkm} alt="wxfkm"/>
           <span style={{marginLeft: 64, marginRight: 32}}>支付宝：</span><img style={{width: 100}} src={zfbfkm} alt="zfbfkm"/>
         </div>
@@ -65,5 +65,28 @@ class User extends React.Component {
     )
   }
 }
+
+const saohua = [
+  '吃到了一颗好吃的糖，想跟你的嘴巴分享',
+  '抱歉不如抱我',
+  '熬夜所以顺便多想你一会儿',
+  '反正咸着也是咸着，不如甜一下',
+  '躲得过初一躲不过你',
+  '打算搬家，搬到你心里',
+  '喜欢你硬起来的样子，也喜欢你软下来的样子',
+  '想和你过日复一日的生活',
+  '想把你埋进怀里，发芽开花结果',
+  '离我远点，不然别怪我黏着你',
+  '“别什么都赖在我身上” “那我趴在你身上”',
+  '有了我你就不能喜欢其他的猪了',
+  '早安是一个下引号，前面的句子是昨天想你睡不着呢，和今天一醒来又想跟你说话啦',
+  '“总觉得心里缺点什么” “心眼儿”',
+  '百年好合就算了，我们七十年好合就够了',
+  '小心翼翼地藏起来时也希望被你揪出来熊抱一顿',
+  '坚持很累，不想站在你身边了，想躺在你身边',
+  'To do list：1. you',
+  '不乖，想被罚，罚睡喜欢的人一万遍',
+  '"医生说我有低血糖。" "所以呢？" "你嘴甜，不介意我吻你吧？"',
+]
 
 export default User

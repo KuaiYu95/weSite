@@ -1,18 +1,14 @@
-import React, { Component, Suspense, lazy } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu, Breadcrumb, Icon, Button, Empty, Alert } from 'antd'
 import PackageBackTop from '../../components/BackTop'
-// import User from '../User'
-// import Todos from '../Todos';
-// import Timeline from '../Timeline'
+import User from '../User'
+import Todos from '../Todos';
+import TimeLine from '../TimeLine'
 import NProgress from 'nprogress' 
-import we from '../../asserts/pictures/we.jpeg'
+import we from '../../asserts/images/2.jpg'
 import 'nprogress/nprogress.css'
 import './index.less'
-
-const User = lazy(() => import('../User'))
-const Todos = lazy(() => import('../Todos'))
-const TimeLine = lazy(() => import('../TimeLine'))
 
 
 const { Header, Content, Footer, Sider } = Layout
@@ -59,7 +55,7 @@ export default class Ky extends Component<any, any> {
           <div className="logo">
             <img src={we} alt="logo" style={{width: '100%'}} />
           </div>
-          <Menu defaultSelectedKeys={['user']} mode="inline" onSelect={this.handleClick}>
+          <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {
               return <Menu.Item key={it.key}>
                   <Icon type={it.type} />
@@ -69,7 +65,7 @@ export default class Ky extends Component<any, any> {
           </Menu>
         </Sider>
         <Layout>
-          <Header className="header">{headTitle}</Header>
+          <Header className="ky-header">{headTitle}</Header>
           <Content style={{ margin: '0 16px' }}>
             <Alert style={{ margin: '16px 0' }} type="info" message={
               <Breadcrumb >
@@ -78,9 +74,7 @@ export default class Ky extends Component<any, any> {
               </Breadcrumb>
             } />
             <div style={{ padding: 24, background: '#fff', minHeight: 570 }}>
-              {bodyComponent ? 
-                <Suspense fallback={<div>Loading...</div>}> {bodyComponent} </Suspense>
-              : <Empty description="暂无数据" />}
+              {bodyComponent ? bodyComponent : <Empty description="暂无数据" />}
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

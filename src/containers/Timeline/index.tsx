@@ -25,6 +25,7 @@ class TimeLine extends React.Component {
             <Item color="gray"><span style={{color: ""}}>2019-09-30</span> 此网站开始搭建，完成首页</Item>
             <Item color="gray"><span style={{color: ""}}>2019-10-08</span> 完成我的主页，时间线</Item>
             <Item color="gray"><span style={{color: ""}}>2019-10-10</span> 完成待办事项</Item>
+            <Item color="gray"><span style={{color: ""}}>2019-10-11</span> 更换待办事项UI界面</Item>
           </Timeline>
         </div>
       </>
