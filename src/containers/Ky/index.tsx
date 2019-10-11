@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense, lazy } from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu, Breadcrumb, Icon, Button, Empty, Alert } from 'antd'
 import PackageBackTop from '../../components/BackTop'
-import User from '../User'
-import TimeLine from '../Timeline'
+// import User from '../User'
+// import Todos from '../Todos';
+// import Timeline from '../Timeline'
 import NProgress from 'nprogress' 
 import we from '../../asserts/pictures/we.jpeg'
 import 'nprogress/nprogress.css'
 import './index.less'
+
+const User = lazy(() => import('../User'))
+const Todos = lazy(() => import('../Todos'))
+const TimeLine = lazy(() => import('../TimeLine'))
+
 
 const { Header, Content, Footer, Sider } = Layout
 export default class Ky extends Component<any, any> {
@@ -72,7 +78,9 @@ export default class Ky extends Component<any, any> {
               </Breadcrumb>
             } />
             <div style={{ padding: 24, background: '#fff', minHeight: 570 }}>
-              {bodyComponent ? bodyComponent : <Empty description="暂无数据" />}
+              {bodyComponent ? 
+                <Suspense fallback={<div>Loading...</div>}> {bodyComponent} </Suspense>
+              : <Empty description="暂无数据" />}
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
@@ -114,7 +122,7 @@ const menuList = [
     type: "picture",
     title: "照片墙"
   }, {
-    key: "timeLine",
+    key: "timeline",
     type: "line-chart",
     title: "时间线"
   }, {
@@ -132,7 +140,7 @@ const content:any = {
   foot: '所有去过的城市',
   todos: '计划中的事项与将来的打算',
   tetris: '俄罗斯方块',
-  timeLine: '变更状态记录',
+  timeline: '变更状态记录',
   pictureWall: '定格的时光'
 }
 
@@ -142,8 +150,8 @@ const component:any = {
   article: null,
   diary: null,
   foot: null,
-  todos: null,
+  todos: <Todos />,
   tetris: null,
-  timeLine: <TimeLine />,
+  timeline: <TimeLine />,
   pictureWall: null,
 }
