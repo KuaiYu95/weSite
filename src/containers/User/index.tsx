@@ -46,6 +46,9 @@ class User extends React.Component {
             <Col span={6}>
               <Statistic title="打赏" value={24.10} suffix=" /rmb" />
             </Col>
+            <Col span={6}>
+              <Statistic title="痕迹" value={34903} suffix=" 处" />
+            </Col>
           </Row>
         </div>
         <div className="personal">
@@ -57,7 +60,7 @@ class User extends React.Component {
           </Descriptions>
         </div>
         <div className="test2">
-          <p style={{fontSize: 18, color: '#F45C24', marginLeft: 48, fontFamily: 'cursive'}}>{saohua[(Math.random() * 100 | 0) % 20]} (Tips: 扫码有惊喜哦)</p>
+          <p style={{fontSize: 18, color: '#F45C24', marginLeft: 48, fontFamily: 'cursive'}}>{saohua[(Math.random() * 100 | 0) % 38]} (Tips: 扫码有惊喜哦)</p>
           <span style={{marginLeft: 304, marginRight: 32}}>微信：</span><img style={{width: 100}} src={wxfkm} alt="wxfkm"/>
           <span style={{marginLeft: 64, marginRight: 32}}>支付宝：</span><img style={{width: 100}} src={zfbfkm} alt="zfbfkm"/>
         </div>
@@ -87,6 +90,24 @@ const saohua = [
   'To do list：1. you',
   '不乖，想被罚，罚睡喜欢的人一万遍',
   '"医生说我有低血糖。" "所以呢？" "你嘴甜，不介意我吻你吧？"',
+  '我喜欢你，来自左肩，靠近心脏',
+  '别想了，外面的猪都不如我可爱',
+  '爱你的人东南西北都顺路，想你的人白天黑夜都不忙',
+  '一看到你就牙疼，或许因为你太甜了吧',
+  '种一片缘分，结一段生死，守一生爱你',
+  '我愿用最初的心，陪你走最远的路',
+  '我们在一起，你负责宠爱，我负责可爱',
+  '你那么可爱，应该遇到我',
+  '一房两人三餐四季就是你了',
+  '喜欢一个人的感觉，大概就是听别人讨论爱情，我只想起你',
+  '欢迎来到王者荣耀，我还有5秒到达你心上',
+  '不想做好人，也不想做坏人，只想做你的心上人',
+  '我胆子很小，但什么东西都想试一次，恋爱也是，我也想试一次，就和你',
+  '我本来是要行走江湖的，但看见你我觉得可以先停一停',
+  '我这个人很难将就，遇到对味的就想占为己用',
+  '这一生我只想牵你的手，因为今生有你早已足够',
+  '以前喜欢热闹，现在喜欢独处，以后喜欢你吧',
+  '我不相信永远的爱，因为我只会一天比一天更爱你'
 ]
 
 export default User
