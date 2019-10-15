@@ -1,6 +1,6 @@
 import React from 'react'
 import { Timeline, message, Empty, Input, Button, Cascader } from 'antd'
-import { reqTimeline, resTimeline } from '../../api'
+import { getTimeline, addTimeline } from '../../api'
 import './index.less'
 
 const {Item} = Timeline
@@ -67,7 +67,7 @@ class TimeLine extends React.Component {
     this.setState({color: value[0]})
   }
   getData = () => {
-    reqTimeline({})
+    getTimeline({})
     .then((res:any) => {
       if (res.data && res.data.success) {
         this.setState({timeline: res.data.data})
@@ -80,7 +80,7 @@ class TimeLine extends React.Component {
     const {color, content} = this.state
     const time = new Date().toLocaleDateString().split('/').join('-')
     console.log({time, color, content})
-    resTimeline({time, color, content})
+    addTimeline({time, color, content})
       .then((res:any) => {
         this.setState({
           color: '',
@@ -114,15 +114,15 @@ class TimeLine extends React.Component {
           <Cascader className="cascader" options={options} onChange={this.handleCascader} placeholder="选择类型" />
           <Button className="btn" onClick={this.submit}>确定</Button>
         </div>
-        {timeline.length !== 0 ? <div className="timeline">
-          <Timeline mode="alternate" reverse>
+        <div className="timeline">
+          {timeline.length !== 0 ? <Timeline mode="alternate" reverse>
             {
               timeline.map((item:any, idx:number) => {
                 return <Item key={idx} color={item.color}><span style={{color: ""}}>{item.time}</span> {item.content}</Item>
               })
             }
-          </Timeline>
-        </div> : <Empty />}
+          </Timeline> : <Empty />}
+        </div>
       </>
     )
   }

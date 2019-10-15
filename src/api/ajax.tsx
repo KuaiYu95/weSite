@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default function ajax(url:string = '', data:any = {}, type:string = 'GET'):any {
+export default function ajax(url:string = '', type:string = 'GET', data:any = {}):any {
   
   if (type === 'GET') {
     let urlStr = ''

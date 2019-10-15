@@ -1,24 +1,23 @@
 import React, {useState,useEffect} from 'react'
 import {Input, Button, Icon, Checkbox, message, Empty, Tag} from 'antd';
-import moment from 'moment';
+import {getTodos, addTodos} from '../../api'
 import './index.less'
 
 interface ITodo {
-	todo: string,
+	content: string,
   isChecked: boolean,
-  dbc: boolean,
-  id: string
+  _id: string,
+  time: string,
 }
 
 function Todos() {
+  // 所有 Todos 组成的数组
+  const [todos, setTodos] = useState<ITodo[]>([])  
+  useEffect(() => {
+    getData()
+  }, [''])
   // 暂存输入框内容
   const [todo, setTodo] = useState('')  
-  // 所有 Todos 组成的数组
-  const [todos, setTodos] = useState<ITodo[]>([ 
-    {todo: 'test测试', isChecked: false, dbc: false, id: '1567323296933'},
-    {todo: 'blog 添加上次markdown文件件功能添加上次markdown文件功能', isChecked: false, dbc: false, id: '1567323261044'},
-    {todo: '替换markdown展示库', isChecked: true, dbc: false, id: '1567323264039'},
-  ])  
   // 全选按钮判断
   const [isAllChecked, setIsAllChecked] = useState<boolean>()
   // 判断是否显示清除所有已完成任务按钮
@@ -28,14 +27,20 @@ function Todos() {
   // 3选1
   const [select, setSelect] = useState('All')
 
-  useEffect(() => {
-    const flag = todos.every((it:ITodo) => {
-      return it.isChecked === true ? true : false
+  const getData = function() {
+    getTodos({}).then((res:any) => {
+      if (res.data && res.data.success) {
+        setTodos(res.data.data)
+        const flag = res.data.data.every((it:ITodo) => {
+          return it.isChecked === true ? true : false
+        })
+        flag ? setIsAllChecked(true) : setIsAllChecked(false)
+        share(res.data.data)
+      } else {
+        message.error('数据请求失败，请查看网络！')
+      }
     })
-    flag ? setIsAllChecked(true) : setIsAllChecked(false)
-
-    share(todos)
-  }, [todos])
+  }
 
   const share = function(todos:any) {
     // const flag2 = todos.some((it:ITodo) => {
@@ -59,12 +64,20 @@ function Todos() {
   }
   // 添加todo按钮点击操作
   const handleClickAdd = function() {
-    if (todo.trim() === '') {
+    let content = todo.trim()
+    if (content === '') {
       message.warn('请输入代办任务')
     } else {
-      let id = Date.now().toString()
-      setTodo('')
-      setTodos([...todos, {todo: todo.trim(), isChecked: false, dbc: false, id}])
+      addTodos({content}).then((res:any) => {
+        if (res.data && res.data.success) {
+          getData()
+        } else {
+          message.error('数据请求失败，请查看网络！')
+        }
+      })
+      // let id = Date.now().toString()
+      // setTodo('')
+      // setTodos([...todos, {todo: todo.trim(), isChecked: false, dbc: false, id}])
     }
   }
   // todo任务是否完成按钮点击
@@ -72,8 +85,8 @@ function Todos() {
     const id = e.target.id
     const check = e.target.checked
     let datas = [...todos].map((it:ITodo) => {
-      if (it.id === id) {
-        return {id, isChecked: check, dbc: it.dbc, todo: it.todo}
+      if (it._id === id) {
+        return {...it, isChecked: check}
       } else {
         return it
       }
@@ -84,14 +97,14 @@ function Todos() {
   const handleClickAllCheck = function() {
     if (isAllChecked) {
       let datas = [...todos].map((it:ITodo) => {
-        return {id: it.id, isChecked: !it.isChecked, dbc: it.dbc, todo: it.todo}
+        return {...it, isChecked: !it.isChecked}
       })
       setTodos(datas)
       setIsAllChecked(false)
     } else {
       let datas = [...todos].map((it:ITodo) => {
         if (!it.isChecked) {
-          return {id: it.id, isChecked: !it.isChecked, dbc: it.dbc, todo: it.todo}
+          return {...it, isChecked: !it.isChecked}
         } else {
           return it
         }
@@ -104,7 +117,7 @@ function Todos() {
   const handleClickDel = function(e:any) {
     const id = e.target.dataset.id
     let datas = todos.filter((it:ITodo) => {
-      if (it.id === id) {
+      if (it._id === id) {
         return false
       } else {
         return true
@@ -135,7 +148,7 @@ function Todos() {
   
   const TodosRender = function(props:any) {
     const {value} = props
-    const bg:string[] = ['magenta', 'red', 'volcano', 'orange', 'gold',  'green', 'cyan', 'blue', 'geekblue', 'purple']
+    const bg:string[] = ['magenta', 'gold', 'cyan', 'volcano', 'blue', 'geekblue', 'orange', 'red', 'green', 'purple']
     let datas = []
     switch(select) {
       case 'Active': 
@@ -155,19 +168,19 @@ function Todos() {
     return (
       <div className="list">
         {datas.length > 0 ? datas.map((it:ITodo, idx:number) => {
-          let a:any = bg[Math.random() * 10 | 0]
+          let a:any = bg[idx % 10]
           return (
-            <div className="item" key={it.id}>
-              <Checkbox style={{float: 'left'}} id={it.id} checked={it.isChecked} onClick={handleClickCheck} />
+            <div className="item" key={it._id}>
+              <Checkbox style={{float: 'left'}} id={it._id} checked={it.isChecked} onClick={handleClickCheck} />
               <div className="block">
                 <Tag color={a}>
                   <div className="todo" style={it.isChecked ? {textDecoration: 'line-through'} : {}}>
-                    {idx + 1 + '. ' + it.todo}
+                    {idx + 1 + '. ' + it.content}
                   </div>
                 </Tag>
-                <div className="time">{moment(+it.id).format('L')}</div>
+                <div className="time">{it.time}</div>
               </div>
-              <div style={{float: 'right'}} data-id={it.id} onClick={handleClickDel}>
+              <div style={{float: 'right'}} data-id={it._id} onClick={handleClickDel}>
                 <span style={{pointerEvents: "none", color: 'gray'}}>
                   <Icon type="delete" />
                 </span>
