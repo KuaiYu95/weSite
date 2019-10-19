@@ -79,23 +79,25 @@ class TimeLine extends React.Component {
   submit = () => {
     const {color, content} = this.state
     const time = new Date().toLocaleDateString().split('/').join('-')
-    console.log({time, color, content})
-    addTimeline({time, color, content})
-      .then((res:any) => {
-        this.setState({
-          color: '',
-          content: '',
+    if (content.trim() !== '') {
+      addTimeline({time, color, content})
+        .then((res:any) => {
+          this.setState({
+            color: '',
+            content: '',
+            time: ''
+          })
+          if ((res.data && !res.data.success) || res.status !== 200) {
+            message.error('数据发送失败，请查看网络！')
+          }
+          if(res.data && res.data.success) {
+            this.getData()
+          }
         })
-        if ((res.data && !res.data.success) || res.status !== 200) {
-          message.error('数据发送失败，请查看网络！')
-        }
-        if(res.data && res.data.success) {
-          this.getData()
-        }
-      })
+    }
   }
   render() {
-    const {timeline} = this.state
+    const {timeline, color, content} = this.state
     return (
       <>
         <div className="tips">
@@ -110,8 +112,8 @@ class TimeLine extends React.Component {
           </Timeline>
         </div>
         <div className="write">
-          <Input className="input" onChange={this.handleInput} placeholder="请输入时间线标题" />
-          <Cascader className="cascader" options={options} onChange={this.handleCascader} placeholder="选择类型" />
+          <Input className="input" value={content} onChange={this.handleInput} placeholder="请输入时间线标题" />
+          <Cascader className="cascader" value={[color]} options={options} onChange={this.handleCascader} placeholder="选择类型" />
           <Button className="btn" onClick={this.submit}>确定</Button>
         </div>
         <div className="timeline">

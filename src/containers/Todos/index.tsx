@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import {Input, Button, Icon, Checkbox, message, Empty, Tag} from 'antd';
-import {getTodos, addTodos} from '../../api'
+import {getTodos, addTodos, modifyTodos, delTodos} from '../../api'
 import './index.less'
 
 interface ITodo {
@@ -15,7 +15,7 @@ function Todos() {
   const [todos, setTodos] = useState<ITodo[]>([])  
   useEffect(() => {
     getData()
-  }, [''])
+  }, [])
   // 暂存输入框内容
   const [todo, setTodo] = useState('')  
   // 全选按钮判断
@@ -26,7 +26,7 @@ function Todos() {
   const [left, setLeft] = useState<number>()
   // 3选1
   const [select, setSelect] = useState('All')
-
+  // 获取数据
   const getData = function() {
     getTodos({}).then((res:any) => {
       if (res.data && res.data.success) {
@@ -41,23 +41,14 @@ function Todos() {
       }
     })
   }
-
+  // left
   const share = function(todos:any) {
-    // const flag2 = todos.some((it:ITodo) => {
-    //   return it.isChecked === true ? true : false
-    // })
-    // flag2 ? setIsHave(true) : setIsHave(false)
-
     let left = todos.reduce((count:number, it:ITodo) => {
-      if (!it.isChecked) {
-        return count = count + 1
-      } else {
-        return count
-      }
+      return count = !it.isChecked ? count + 1 : count
     }, 0)
     setLeft(left)
+    left === 0 ? setIsAllChecked(true) : setIsAllChecked(false)
   }
-
   // 实时更新输入框内容到暂存区
   const handleChangeTodo = function(e:any) {
     setTodo(e.target.value)
@@ -75,62 +66,82 @@ function Todos() {
           message.error('数据请求失败，请查看网络！')
         }
       })
-      // let id = Date.now().toString()
-      // setTodo('')
-      // setTodos([...todos, {todo: todo.trim(), isChecked: false, dbc: false, id}])
     }
   }
   // todo任务是否完成按钮点击
   const handleClickCheck = function(e:any) {
     const id = e.target.id
     const check = e.target.checked
-    let datas = [...todos].map((it:ITodo) => {
-      if (it._id === id) {
-        return {...it, isChecked: check}
+    modifyTodos({type: false, _id: id, isChecked: check}).then((res:any) => {
+      if (res.data && res.data.success) {
+        let datas = [...todos].map((it:ITodo) => {
+          return it._id === id ? {...it, isChecked: check} : it
+        })
+        setTodos(datas)
+        share(todos)
       } else {
-        return it
+        message.error('数据请求失败，请检查网络！')
       }
     })
-    setTodos(datas)
   }
   // 全选按钮点击
   const handleClickAllCheck = function() {
     if (isAllChecked) {
-      let datas = [...todos].map((it:ITodo) => {
-        return {...it, isChecked: !it.isChecked}
-      })
-      setTodos(datas)
-      setIsAllChecked(false)
-    } else {
-      let datas = [...todos].map((it:ITodo) => {
-        if (!it.isChecked) {
-          return {...it, isChecked: !it.isChecked}
+      modifyTodos({type: true, check: false}).then((res:any) => {
+        if (res.data && res.data.success) {
+          let datas = [...todos].map((it:ITodo) => {
+            return {...it, isChecked: false}
+          })
+          setTodos(datas)
+          setIsAllChecked(false)
         } else {
-          return it
+          message.error('数据请求失败，请检查网络！')
         }
       })
-      setTodos(datas)
-      setIsAllChecked(true)
+    } else {
+      modifyTodos({type: true, check: true}).then((res:any) => {
+        if (res.data && res.data.success) {
+          let datas = [...todos].map((it:ITodo) => {
+            if (!it.isChecked) {
+              return {...it, isChecked: true}
+            } else {
+              return it
+            }
+          })
+          setTodos(datas)
+          setIsAllChecked(true)
+        } else {
+          message.error('数据请求失败，请检查网络！')
+        }
+      })
     }
   }
   // todo任务删除按钮
   const handleClickDel = function(e:any) {
     const id = e.target.dataset.id
-    let datas = todos.filter((it:ITodo) => {
-      if (it._id === id) {
-        return false
+    delTodos({_id: id, type: false}).then((res:any) => {
+      if (res.data && res.data.success) {
+        let datas = todos.filter((it:ITodo) => {
+          return it._id === id ? false : true
+        })
+        setTodos(datas)
       } else {
-        return true
+        message.error('数据请求失败，请检查网络！')
       }
     })
-    setTodos(datas)
   }
   // 清除所有已完成任务按钮点击
   const handleClickCle = function() {
-    let datas = todos.filter((it:ITodo) => {
-      return it.isChecked ? false : true
+    delTodos({type: true}).then((res:any) => {
+      if (res.data && res.data.success) {
+        let datas = todos.filter((it:ITodo) => {
+          return it.isChecked ? false : true
+        })
+        setTodos(datas)
+      } else {
+        message.error('数据请求失败，请检查网络！')
+      }
     })
-    setTodos(datas)
   }
   // 三选一
   const handleClickSelect = function(type:string):void {
@@ -145,7 +156,7 @@ function Todos() {
         setSelect('Completed')
     }
   }
-  
+  // todos
   const TodosRender = function(props:any) {
     const {value} = props
     const bg:string[] = ['magenta', 'gold', 'cyan', 'volcano', 'blue', 'geekblue', 'orange', 'red', 'green', 'purple']

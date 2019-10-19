@@ -15,7 +15,7 @@ const { Header, Content, Footer, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: false,
-    selectedKeys: ['todos'],
+    selectedKeys: ['user'],
   }
 
   componentWillMount() {

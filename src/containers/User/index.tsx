@@ -1,5 +1,6 @@
 import React from 'react'
-import { Carousel, Descriptions, Icon, Statistic, Row, Col } from 'antd'
+import { Carousel, Descriptions, Icon, Statistic, Row, Col, message } from 'antd'
+import { getTotal } from '../../api'
 import p1 from '../../asserts/images/5.jpg'
 import p2 from '../../asserts/images/4.jpg'
 import p3 from '../../asserts/images/3.jpg'
@@ -10,8 +11,30 @@ import zfbfkm from '../../asserts/money/zfb.jpg'
 import './index.less'
 
 class User extends React.Component {
+  state = {
+    postCount: 0,
+    articalCount: 0,
+    todoCount: 0,
+    dailyCount: 0,
+    footCount: 0,
+    photoCount: 0,
+    featCount: 0,
+    money: 0,
+  }
+
+  componentDidMount() {
+    getTotal({}).then((res:any) => {
+      if (res.data && res.data.success) {
+        this.setState({...res.data.data[0]})
+      } else {
+        message.error('数据请求失败，请查看网络！')
+      }
+    })
+  }
 
   render() {
+    const {postCount, articalCount, todoCount, dailyCount, footCount, photoCount, featCount, money} = this.state
+    console.log({postCount, articalCount, todoCount, dailyCount, footCount, photoCount, featCount, money})
     return (
       <div style={{display: 'flex', flexWrap: 'wrap'}}>
         <div className="picture_wall">
@@ -26,28 +49,28 @@ class User extends React.Component {
         <div className="test1">
           <Row style={{height: 350}} type="flex" gutter={16} justify="space-around" align="middle">
             <Col span={6}>
-              <Statistic title="帖子 / 论坛" value={24} suffix=" 篇" />
+              <Statistic title="帖子 / 论坛" value={postCount} suffix=" 篇" />
             </Col>
             <Col span={6}>
-              <Statistic title="文章 / 博客" value={65} suffix=" 篇" />
+              <Statistic title="文章 / 博客" value={articalCount} suffix=" 篇" />
             </Col>
             <Col span={6}>
-              <Statistic title="待办事项" value={12} suffix=" 个" />
+              <Statistic title="待办事项" value={todoCount} suffix=" 个" />
             </Col>
             <Col span={6}>
-              <Statistic title="日记" value={434} suffix="篇" />
+              <Statistic title="日记" value={dailyCount} suffix="篇" />
             </Col>
             <Col span={6}>
-              <Statistic title="去过的城市" value={23} suffix=" 个" />
+              <Statistic title="去过的城市" value={footCount} suffix=" 个" />
             </Col>
             <Col span={6}>
-              <Statistic title="照片" value={4382} suffix=" 张" />
+              <Statistic title="照片" value={photoCount} suffix=" 张" />
             </Col>
             <Col span={6}>
-              <Statistic title="打赏" value={24.10} suffix=" /rmb" />
+              <Statistic title="打赏" value={money} suffix=" /rmb" />
             </Col>
             <Col span={6}>
-              <Statistic title="痕迹" value={34903} suffix=" 处" />
+              <Statistic title="痕迹" value={featCount} suffix=" 处" />
             </Col>
           </Row>
         </div>
