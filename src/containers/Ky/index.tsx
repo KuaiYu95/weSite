@@ -6,7 +6,7 @@ import User from '../User'
 import Todos from '../Todos';
 import TimeLine from '../TimeLine'
 import NProgress from 'nprogress' 
-import we from '../../asserts/bgi.jpg'
+import we from '../../asserts/pictures/we.jpeg'
 import 'nprogress/nprogress.css'
 import './index.less'
 
