@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import { Layout, Menu, Icon, Button, Empty } from 'antd'
 import Loadable from 'react-loadable'
 import Loading from '../../components/Loading'
-import we from '../../asserts/images/1.jpg'
-// import NProgress from 'nprogress' 
+import NProgress from 'nprogress' 
 import 'nprogress/nprogress.css'
 import './index.less'
 
@@ -45,21 +44,21 @@ export default class Ky extends Component<any, any> {
     selectedKeys: ['footPrint'],
   }
 
-  // componentWillMount() {
-  //   NProgress.start()
-  // }
+  componentWillMount() {
+    NProgress.start()
+  }
 
-  // componentWillUpdate() {
-  //   NProgress.start()
-  // }
+  componentWillUpdate() {
+    NProgress.start()
+  }
 
-  // componentDidMount() {
-  //   NProgress.done()
-  // }
+  componentDidMount() {
+    NProgress.done()
+  }
 
-  // componentDidUpdate() {
-  //   NProgress.done()
-  // }
+  componentDidUpdate() {
+    NProgress.done()
+  }
 
   onCollapse = (collapsed:boolean) => {
     this.setState({ collapsed });
@@ -80,7 +79,7 @@ export default class Ky extends Component<any, any> {
         <PackageBackTop />
         <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} className='ant-layout-sider-light'>
           <div className="logo">
-            <img src={we} alt="logo" style={{width: '100%'}} />
+            <img src='https://kuaiyu95.github.io/pictures/images/1.jpg' alt="logo" style={{width: '100%'}} />
           </div>
           <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {

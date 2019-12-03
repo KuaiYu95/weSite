@@ -7,7 +7,7 @@ export default class PictureWall extends Component {
   walls = [
     {
       photo: [
-        'http://a1.qpic.cn/psb?/V12emHCJ3kcUUr/9LhjiQ*HsL8sJzduMwRuKngPJUfvYWGawJ2Jl1fh8WY!/c/dGwBAAAAAAAA&ek=1&kp=1&pt=0&bo=PgZUCNALwA8RIGc!&tl=3&vuin=532560194&tm=1575266400&sce=60-2-2&rf=0-0'
+        'https://kuaiyu95.github.io/pictures/images/2.jpg'
       ],
       time: '',
       view: 0,
@@ -17,7 +17,7 @@ export default class PictureWall extends Component {
     },
     {
       photo: [
-        'https://upload-images.jianshu.io/upload_images/15968354-dfb9f08bb6c0bbfc.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700/format/webp'
+        'https://kuaiyu95.github.io/pictures/images/4.jpg'
       ],
       time: '',
       view: 0,
@@ -27,7 +27,7 @@ export default class PictureWall extends Component {
     },
     {
       photo: [
-        'https://upload-images.jianshu.io/upload_images/15968354-04be903c4542242b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'
+        'https://kuaiyu95.github.io/pictures/images/5.jpg'
       ],
       time: '',
       view: 0,
@@ -37,7 +37,7 @@ export default class PictureWall extends Component {
     },
     {
       photo: [
-        'https://upload-images.jianshu.io/upload_images/15968354-cb2973d9db87137c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'
+        'https://kuaiyu95.github.io/pictures/images/1.jpg'
       ],
       time: '',
       view: 0,
@@ -47,7 +47,7 @@ export default class PictureWall extends Component {
     },
     {
       photo: [
-        'https://upload-images.jianshu.io/upload_images/15968354-6baca8bc98f1e042.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'
+        'https://kuaiyu95.github.io/pictures/images/3.jpg'
       ],
       time: '',
       view: 0,

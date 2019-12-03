@@ -1,33 +1,36 @@
 .bg {
   width: 100vw;
   height: 100vh;
-  background: url('../../asserts/bgi.jpg') center center no-repeat;
+  background: url('https://kuaiyu95.github.io/pictures/bgi.jpg') center center no-repeat;
   background-size: cover;
   position: relative;
 
   .title {
     font-size: 64px;
-    font-weight: 400;
-    background: url('../../asserts/bgi.jpg') 40% 60% no-repeat;
-    background-clip: text;
-    color: transparent;
+    font-weight: 600;
     position: absolute;
-    top: 5%;
-    left: 5%;
+    top: 15%;
+    left: 15%;
+    color: #fff;
+    font-family: 'San Francisco';
   }
   
   .block {
     width: 200px;
-    height: 200px;
     position: absolute;
-    top: 30%;
-    left: 15%;
+    bottom: 0;
+    left: 0;
 
     .ant-btn {
       width: 100%;
       height: 50px;
-      margin-bottom: 50px;
-      opacity: 0.5;
+      opacity: 0.01;
+      transition: 0.5s;
+    }
+
+    .ant-btn:hover {
+      opacity: 1;
+      transition: 1s;
     }
   }
 }

@@ -1,13 +1,6 @@
 import React from 'react'
 import { Carousel, Descriptions, Icon, Statistic, Row, Col, message } from 'antd'
 import { getTotal } from '../../api'
-import p1 from '../../asserts/images/5.jpg'
-import p2 from '../../asserts/images/4.jpg'
-import p3 from '../../asserts/images/3.jpg'
-import p4 from '../../asserts/images/1.jpg'
-import p5 from '../../asserts/images/2.jpg'
-import wxfkm from '../../asserts/money/wx.jpg'
-import zfbfkm from '../../asserts/money/zfb.jpg'
 import './index.less'
 
 class User extends React.Component {
@@ -39,11 +32,11 @@ class User extends React.Component {
       <div style={{display: 'flex', flexWrap: 'wrap'}}>
         <div className="picture_wall">
           <Carousel className="divImg" autoplay effect="fade">
-            <div><img src={p1} alt="p1"/></div>
-            <div><img src={p2} alt="p2"/></div>
-            <div><img src={p3} alt="p3"/></div>
-            <div><img src={p4} alt="p4"/></div>
-            <div><img src={p5} alt="p5"/></div>
+            <div><img src='https://kuaiyu95.github.io/pictures/images/2.jpg' alt="p1"/></div>
+            <div><img src='https://kuaiyu95.github.io/pictures/images/1.jpg' alt="p2"/></div>
+            <div><img src='https://kuaiyu95.github.io/pictures/images/3.jpg' alt="p3"/></div>
+            <div><img src='https://kuaiyu95.github.io/pictures/images/5.jpg' alt="p4"/></div>
+            <div><img src='https://kuaiyu95.github.io/pictures/images/4.jpg' alt="p5"/></div>
           </Carousel>
         </div>
         <div className="test1">
@@ -83,9 +76,15 @@ class User extends React.Component {
           </Descriptions>
         </div>
         <div className="test2">
-          <p style={{fontSize: 18, color: '#F45C24', marginLeft: 48, fontFamily: 'cursive'}}>{saohua[(Math.random() * 100 | 0) % 38]} (Tips: 扫码有惊喜哦)</p>
-          <span style={{marginLeft: 304, marginRight: 32}}>微信：</span><img style={{width: 100}} src={wxfkm} alt="wxfkm"/>
-          <span style={{marginLeft: 64, marginRight: 32}}>支付宝：</span><img style={{width: 100}} src={zfbfkm} alt="zfbfkm"/>
+          <p style={{fontSize: 18, color: '#F45C24', marginLeft: 48, fontFamily: 'cursive'}}>{saohua[(Math.random() * 100 | 0) % 38]}</p>
+          <span style={{marginLeft: 304, marginRight: 32}}>
+            微信：
+          </span>
+          <img style={{width: 100}} src='https://kuaiyu95.github.io/pictures/money/wx.jpg' alt="wxfkm"/>
+          <span style={{marginLeft: 64, marginRight: 32}}>
+            支付宝：
+          </span>
+          <img style={{width: 100}} src='https://kuaiyu95.github.io/pictures/money/zfb.jpg' alt="zfbfkm"/>
         </div>
       </div>
     )
