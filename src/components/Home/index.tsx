@@ -13,7 +13,9 @@ function Home() {
         <Button>
           <Link  to="/ky">蒯爸爸</Link>
         </Button>
-        <Button>闫狗子</Button>
+        <Button>
+          <Link to="/Yyj">刘亦菲脑残粉</Link>
+        </Button>
       </div>
       
     </div>

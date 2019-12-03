@@ -7,46 +7,25 @@ const {Item} = Timeline
 
 const options = [
   {
-    label: <div>
-      <div style={{backgroundColor: 'gray', width: 10, height: 10, display: 'inline-block', marginRight: 5}}></div> 
-      构建项目
-    </div>,
+    label: '构建项目',
     value: 'gray',
   }, {
-    label: <div>
-      <div style={{backgroundColor: 'yellow', width: 10, height: 10, display: 'inline-block', marginRight: 5}}></div> 
-      发表帖子 / 论坛
-    </div>,
+    label: '发表帖子 / 论坛',
     value: 'yellow',
   }, {
-    label: <div>
-    <div style={{backgroundColor: 'green', width: 10, height: 10, display: 'inline-block', marginRight: 5}}></div> 
-    发表文章 / 博客
-  </div>,
+    label:'发表文章 / 博客',
     value: 'green',
   }, {
-    label: <div>
-      <div style={{backgroundColor: 'aqua', width: 10, height: 10, display: 'inline-block', marginRight: 5}}></div> 
-      填写日记
-    </div>,
+    label: '填写日记',
     value: 'aqua',
   }, {
-    label: <div>
-      <div style={{backgroundColor: 'tan', width: 10, height: 10, display: 'inline-block', marginRight: 5}}></div> 
-      添加足迹
-    </div>,
+    label: '添加足迹',
     value: 'tan',
   }, {
-    label: <div>
-      <div style={{backgroundColor: 'black', width: 10, height: 10, display: 'inline-block', marginRight: 5}}></div> 
-      添加待办事项
-    </div>,
+    label: '添加待办事项',
     value: 'black',
   }, {
-    label: <div>
-      <div style={{backgroundColor: 'orange', width: 10, height: 10, display: 'inline-block', marginRight: 5}}></div> 
-      上传照片
-    </div>,
+    label: '上传照片',
     value: 'orange',
   }
 ]
@@ -64,6 +43,7 @@ class TimeLine extends React.Component {
     this.setState({content: e.target.value})
   }
   handleCascader = (value:any) => {
+    console.log(value[0])
     this.setState({color: value[0]})
   }
   getData = () => {

@@ -1,38 +1,65 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Layout, Menu, Breadcrumb, Icon, Button, Empty, Alert } from 'antd'
-import PackageBackTop from '../../components/BackTop'
-import User from '../User'
-import Todos from '../Todos';
-import TimeLine from '../TimeLine'
-import NProgress from 'nprogress' 
-import we from '../../asserts/pictures/we.jpeg'
+import { Layout, Menu, Icon, Button, Empty } from 'antd'
+import Loadable from 'react-loadable'
+import Loading from '../../components/Loading'
+import we from '../../asserts/images/1.jpg'
+// import NProgress from 'nprogress' 
 import 'nprogress/nprogress.css'
 import './index.less'
+
+let PackageBackTop = Loadable({
+  loader:()=>import('../../components/BackTop'),
+  loading: Loading
+})
+let User = Loadable({
+  loader:()=>import('../User'),
+  loading: Loading
+})
+let Blog = Loadable({
+  loader:()=>import('../Blog'),
+  loading: Loading
+})
+let Todos = Loadable({
+  loader:()=>import('../Todos'),
+  loading: Loading
+})
+let TimeLine = Loadable({
+  loader:()=>import('../TimeLine'),
+  loading: Loading
+})
+let PictureWall = Loadable({
+  loader:()=>import('../PictureWall'),
+  loading: Loading
+})
+let FootPrint = Loadable({
+  loader:()=>import('../FootPrint'),
+  loading: Loading
+})
 
 
 const { Header, Content, Footer, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: false,
-    selectedKeys: ['user'],
+    selectedKeys: ['footPrint'],
   }
 
-  componentWillMount() {
-    NProgress.start()
-  }
+  // componentWillMount() {
+  //   NProgress.start()
+  // }
 
-  componentWillUpdate() {
-    NProgress.start()
-  }
+  // componentWillUpdate() {
+  //   NProgress.start()
+  // }
 
-  componentDidMount() {
-    NProgress.done()
-  }
+  // componentDidMount() {
+  //   NProgress.done()
+  // }
 
-  componentDidUpdate() {
-    NProgress.done()
-  }
+  // componentDidUpdate() {
+  //   NProgress.done()
+  // }
 
   onCollapse = (collapsed:boolean) => {
     this.setState({ collapsed });
@@ -69,13 +96,13 @@ export default class Ky extends Component<any, any> {
         <Layout>
           <Header className="ky-header">{headTitle}</Header>
           <Content style={{ margin: '0 16px' }}>
-            <Alert style={{ margin: '16px 0' }} type="info" message={
+            {/* <Alert style={{ margin: '16px 0' }} type="info" message={
               <Breadcrumb >
                 <Breadcrumb.Item>ky</Breadcrumb.Item>
                 <Breadcrumb.Item>{selectedKeys[0]}</Breadcrumb.Item>
               </Breadcrumb>
-            } />
-            <div style={{ padding: 24, background: '#fff', minHeight: 570 }}>
+            } /> */}
+            <div style={{ padding: 24, background: '#fff', minHeight: 630, marginTop: 16 }}>
               {bodyComponent ? bodyComponent : <Empty description="暂无数据" />}
             </div>
           </Content>
@@ -137,11 +164,11 @@ const content:any = {
 
 const component:any = {
   user: <User />,
-  blog: null,
+  blog: <Blog />,
   article: null,
   diary: null,
-  footPrint: null,
+  footPrint: <FootPrint />,
   todos: <Todos />,
   timeline: <TimeLine />,
-  pictureWall: null,
+  pictureWall: <PictureWall />,
 }
