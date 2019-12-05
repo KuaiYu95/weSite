@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function Loading() {
   return (
-    <div>loading...</div>
+    <div className="loading">
+      <div className='icon'></div>
+    </div>
   )
 }

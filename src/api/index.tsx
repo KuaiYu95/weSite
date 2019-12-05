@@ -13,3 +13,7 @@ export const addTodos = (data:object) => ajax('/add-todos', 'POST', data)
 export const modifyTodos = (data:object) => ajax('/modify-todos', 'POST', data)
 // 删除 todo
 export const delTodos = (data:object) => ajax('/del-todos', 'POST', data)
+// 获取 足迹
+export const getFootPrint = (data:object) => ajax('/get-foot-print', 'GET')
+// 添加 足迹
+export const addFootPrint = (data:object) => ajax('/add-foot-print', 'POST', data)
