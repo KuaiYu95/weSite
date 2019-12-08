@@ -19,6 +19,10 @@ let Blog = Loadable({
   loader:()=>import('../Blog'),
   loading: Loading
 })
+let Diary = Loadable({
+  loader:()=>import('../Diary'),
+  loading: Loading
+})
 let Todos = Loadable({
   loader:()=>import('../Todos'),
   loading: Loading
@@ -41,7 +45,7 @@ const { Header, Content, Footer, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: false,
-    selectedKeys: ['footPrint'],
+    selectedKeys: ['user'],
   }
 
   componentWillMount() {
@@ -95,12 +99,6 @@ export default class Ky extends Component<any, any> {
         <Layout>
           <Header className="ky-header">{headTitle}</Header>
           <Content style={{ margin: '0 16px' }}>
-            {/* <Alert style={{ margin: '16px 0' }} type="info" message={
-              <Breadcrumb >
-                <Breadcrumb.Item>ky</Breadcrumb.Item>
-                <Breadcrumb.Item>{selectedKeys[0]}</Breadcrumb.Item>
-              </Breadcrumb>
-            } /> */}
             <div style={{ padding: 24, background: '#fff', minHeight: 630, marginTop: 16 }}>
               {bodyComponent ? bodyComponent : <Empty description="暂无数据" />}
             </div>
@@ -128,10 +126,6 @@ const menuList = [
     type: "book",
     title: "文章/博客",
   }, {
-    key: "todos",
-    type: "unordered-list",
-    title: "待办事项",
-  }, {
     key: "diary",
     type: "read",
     title: "日记",
@@ -144,19 +138,27 @@ const menuList = [
     type: "picture",
     title: "照片墙"
   }, {
+    key: "todos",
+    type: "unordered-list",
+    title: "待办事项",
+  }, {
     key: "timeline",
     type: "line-chart",
     title: "时间线"
+  }, {
+    key: '',
+    type: '',
+    title: '留言板',
   }
 ]
 
 const content:any = {
-  user: '关于我',
-  blog: '总结的前端技术帖子与论坛',
-  article: '发表过的文章与博客',
-  diary: '记录生活的点点滴滴',
-  footPrint: '所有去过的城市',
-  todos: '计划中的事项与将来的打算',
+  user: '首页',
+  blog: '前端技术汇总',
+  article: '收藏的文章、博客',
+  diary: '每日一记',
+  footPrint: '留下 👣 一串串',
+  todos: '计划',
   timeline: '变更状态记录',
   pictureWall: '定格的时光'
 }
@@ -165,7 +167,7 @@ const component:any = {
   user: <User />,
   blog: <Blog />,
   article: null,
-  diary: null,
+  diary: <Diary />,
   footPrint: <FootPrint />,
   todos: <Todos />,
   timeline: <TimeLine />,

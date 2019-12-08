@@ -17,3 +17,7 @@ export const delTodos = (data:object) => ajax('/del-todos', 'POST', data)
 export const getFootPrint = (data:object) => ajax('/get-foot-print', 'GET')
 // 添加 足迹
 export const addFootPrint = (data:object) => ajax('/add-foot-print', 'POST', data)
+// 获取 日记
+export const getDiary = (data:object) => ajax('/get-diary', 'GET')
+// 添加 日记
+export const addDiary = (data:object) => ajax('/add-diary', 'POST', data)

@@ -48,13 +48,13 @@ class User extends React.Component {
               <Statistic title="文章 / 博客" value={articalCount} suffix=" 篇" />
             </Col>
             <Col span={6}>
-              <Statistic title="待办事项" value={todoCount} suffix=" 个" />
+              <Statistic title="待办" value={todoCount} suffix=" 个" />
             </Col>
             <Col span={6}>
               <Statistic title="日记" value={dailyCount} suffix="篇" />
             </Col>
             <Col span={6}>
-              <Statistic title="去过的城市" value={footCount} suffix=" 个" />
+              <Statistic title="足迹" value={footCount} suffix=" 个" />
             </Col>
             <Col span={6}>
               <Statistic title="照片" value={photoCount} suffix=" 张" />
@@ -63,7 +63,7 @@ class User extends React.Component {
               <Statistic title="打赏" value={money} suffix=" /rmb" />
             </Col>
             <Col span={6}>
-              <Statistic title="痕迹" value={featCount} suffix=" 处" />
+              <Statistic title="时间线" value={featCount} suffix=" 处" />
             </Col>
           </Row>
         </div>
