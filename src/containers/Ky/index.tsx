@@ -39,13 +39,17 @@ let FootPrint = Loadable({
   loader:()=>import('../FootPrint'),
   loading: Loading
 })
+let Article = Loadable({
+  loader:()=>import('../Article'),
+  loading: Loading
+})
 
 
 const { Header, Content, Footer, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: false,
-    selectedKeys: ['user'],
+    selectedKeys: ['article'],
   }
 
   componentWillMount() {
@@ -153,8 +157,7 @@ const menuList = [
 ]
 
 const content:any = {
-  user: '首页',
-  blog: '前端技术汇总',
+  user: '主页', blog: '前端技术汇总',
   article: '收藏的文章、博客',
   diary: '每日一记',
   footPrint: '留下 👣 一串串',
@@ -166,7 +169,7 @@ const content:any = {
 const component:any = {
   user: <User />,
   blog: <Blog />,
-  article: null,
+  article: <Article />,
   diary: <Diary />,
   footPrint: <FootPrint />,
   todos: <Todos />,

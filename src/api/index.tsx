@@ -21,3 +21,7 @@ export const addFootPrint = (data:object) => ajax('/add-foot-print', 'POST', dat
 export const getDiary = (data:object) => ajax('/get-diary', 'GET')
 // 添加 日记
 export const addDiary = (data:object) => ajax('/add-diary', 'POST', data)
+// 获取 收藏
+export const getArtical = (data:object) => ajax('/get-artical', 'GET')
+// 添加 收藏
+export const addArtical = (data:object) => ajax('/add-artical', 'POST', data)
