@@ -1,11 +1,17 @@
-import React from 'react'
-import { Carousel, Descriptions, Icon, Statistic, Row, Col, message } from 'antd'
-import { getTotal } from '../../api'
+import React, { Component } from 'react'
+import { Modal, Avatar, Icon, Input, Descriptions, Statistic, Row, Col, message, Form, Select, notification } from 'antd'
+import { Link } from 'react-router-dom'
+import { getTotal, getUrl, addUrl } from '../../api'
 import './index.less'
 
-class User extends React.Component {
+const { Search } = Input;
+const { Option } = Select;
+const { Item } = Form
+class UrlForm extends Component<any> {
   state = {
+    visible: false,
     postCount: 0,
+    urlCount: 0,
     articalCount: 0,
     todoCount: 0,
     dailyCount: 0,
@@ -13,84 +19,259 @@ class User extends React.Component {
     photoCount: 0,
     featCount: 0,
     money: 0,
+    urls: [[], [], [], [], [], [], [], [], [], [], []],
+    newUrls: [[], [], [], [], [], [], [], [], [], [], []],
+    title: '',
+    url: '',
   }
 
   componentDidMount() {
-    getTotal({}).then((res:any) => {
+    this.getData()
+  }
+
+  getData() {
+    getTotal({}).then((res: any) => {
       if (res.data && res.data.success) {
-        this.setState({...res.data.data[0]})
+        this.setState({ ...res.data.data[0] })
+      } else {
+        message.error('数据请求失败，请查看网络！')
+      }
+    })
+    getUrl({}).then((res: any) => {
+      if (res.data && res.data.success) {
+        let newUrls: any = [[], [], [], [], [], [], [], [], [], [], []]
+        res.data.data.map((it: any) => {
+          newUrls[+it.classis].push(it)
+          return null
+        })
+        this.setState({ urls: newUrls, newUrls })
       } else {
         message.error('数据请求失败，请查看网络！')
       }
     })
   }
 
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  }
+
+  handleSubmit = () => {
+    this.props.form.validateFields((err: any, values: any) => {
+      let time = new Date().getTime()
+      if (!err) {
+        addUrl({ ...values, time }).then((res: any) => {
+          notification['success']({
+            message: '操作提示',
+            description: `添加成功，${values.title}`,
+            duration: 2
+          })
+          if (res.data.success) {
+            let { urls } = this.state
+            let { classis, url, title } = values
+            let newUrls = urls.map((it: any, idx: number) => {
+              if (idx === +values.classis) {
+                return [...it, { classis, url, title, time }]
+              } else {
+                return it
+              }
+            })
+            this.setState({ newUrls, urls: newUrls })
+          }
+        }).catch((error: any) => {
+          notification['error']({
+            message: '操作提示',
+            description: '添加失败，返回报错',
+            duration: 2
+          })
+        })
+        this.setState({
+          visible: false,
+        });
+      }
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
+
+  onSearch = (value: string) => {
+    let { urls } = this.state
+    if (value.trim() === '') {
+      this.setState({newUrls: urls})
+    } else {
+      let newUrls = urls.map((urlArr: any, idx: number) => {
+        if (idx === 0) {
+          return urlArr
+        } else {
+          return urlArr.filter((it: any) => {
+            return it.title.includes(value)
+          })
+        }
+      })
+      this.setState({ newUrls })
+    }
+  }
+
   render() {
-    const {postCount, articalCount, todoCount, dailyCount, footCount, photoCount, featCount, money} = this.state
-    console.log({postCount, articalCount, todoCount, dailyCount, footCount, photoCount, featCount, money})
+    const { postCount, todoCount, dailyCount, footCount, photoCount, newUrls, visible, urlCount, title, url } = this.state
+    const renderHeader = (
+      <div className='avatar-user'>
+        <Avatar size="small" src="https://front-images.oss-cn-hangzhou.aliyuncs.com/i4/5b019b627dcc672321b168667d7337e0-88-88.gif" />
+        <span className="username">要什么自行车</span>
+      </div>
+    )
+    const { getFieldDecorator } = this.props.form;
     return (
-      <div style={{display: 'flex', flexWrap: 'wrap'}}>
-        <div className="picture_wall">
-          <Carousel className="divImg" autoplay effect="fade">
-            <div><img src='https://kuaiyu95.github.io/pictures/images/2.jpg' alt="p1"/></div>
-            <div><img src='https://kuaiyu95.github.io/pictures/images/1.jpg' alt="p2"/></div>
-            <div><img src='https://kuaiyu95.github.io/pictures/images/3.jpg' alt="p3"/></div>
-            <div><img src='https://kuaiyu95.github.io/pictures/images/5.jpg' alt="p4"/></div>
-            <div><img src='https://kuaiyu95.github.io/pictures/images/4.jpg' alt="p5"/></div>
-          </Carousel>
+      <div className='my-home'>
+        <div className='article-list'>
+          <div className='visit-list'>
+            <span>经常访问：</span>
+            {newUrls[0].map((it: any, idx: number) => {
+              return <span key={it.time}>
+                <a href={it.url} target="blank">{it.title}</a><span className="int"></span>
+              </span>
+            })}
+            <span><Icon type="plus-circle" onClick={this.showModal} /></span><span className="int"></span>
+            <Modal
+              title="添加收藏"
+              visible={visible}
+              okText="添加"
+              onOk={this.handleSubmit}
+              onCancel={this.handleCancel}
+            >
+              <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                <Item label="分类" key='classis'>
+                  {getFieldDecorator('classis', {
+                    initialValue: '0'
+                  })(
+                    <Select>
+                      <Option value="0">经常访问</Option>
+                      <Option value="1">工作</Option>
+                      <Option value="2">HTML & CSS</Option>
+                      <Option value="3">JAVASCRIPT</Option>
+                      <Option value="4">REACT</Option>
+                      <Option value="5">LeedCode</Option>
+                      <Option value="6">数据库</Option>
+                      <Option value="7">计算机网络</Option>
+                      <Option value="8">工具</Option>
+                      <Option value="9">图片</Option>
+                      <Option value="10">VPS</Option>
+                      <Option value="11">其他</Option>
+                    </Select>
+                  )}
+                </Item>
+                <Item label="标题" key='title'>
+                  {getFieldDecorator('title', {
+                    initialValue: title,
+                    rules: [{ required: true, message: '请输入标题!' }]
+                  })(<Input />)}
+                </Item>
+                <Item label="链接" key='url'>
+                  {getFieldDecorator('url', {
+                    initialValue: url,
+                    rules: [{ required: true, message: '请输入链接!' }]
+                  })(<Input />)}
+                </Item>
+              </Form>
+            </Modal>
+          </div>
+          <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p>
+          {newUrls.map((it: any, idx: number) => {
+            if (idx === 0) return null
+            return it.length === 0 ? null : <div className='list' key={idx}>
+              <h4>{urlClassis[+idx]}</h4>
+              <ul>
+                {it.map((item: any) => {
+                  return <li className="list-item" key={item.time}>
+                    <a href={item.url} rel="noopener noreferrer" target='_blank' className='ellipsis'>{item.title}</a>
+                  </li>
+                })}
+              </ul>
+            </div>
+          })}
         </div>
-        <div className="test1">
-          <Row style={{height: 350}} type="flex" gutter={16} justify="space-around" align="middle">
-            <Col span={6}>
-              <Statistic title="帖子 / 论坛" value={postCount} suffix=" 篇" />
-            </Col>
-            <Col span={6}>
-              <Statistic title="文章 / 博客" value={articalCount} suffix=" 篇" />
-            </Col>
-            <Col span={6}>
-              <Statistic title="待办" value={todoCount} suffix=" 个" />
-            </Col>
-            <Col span={6}>
-              <Statistic title="日记" value={dailyCount} suffix="篇" />
-            </Col>
-            <Col span={6}>
-              <Statistic title="足迹" value={footCount} suffix=" 个" />
-            </Col>
-            <Col span={6}>
-              <Statistic title="照片" value={photoCount} suffix=" 张" />
-            </Col>
-            <Col span={6}>
-              <Statistic title="打赏" value={money} suffix=" /rmb" />
-            </Col>
-            <Col span={6}>
-              <Statistic title="时间线" value={featCount} suffix=" 处" />
-            </Col>
-          </Row>
-        </div>
-        <div className="personal">
-          <Descriptions title="个人信息" column={2}>
-            <Descriptions.Item label={<Icon type="wechat" />}>mywx_ky</Descriptions.Item>
-            <Descriptions.Item label={<Icon type="environment" />}>浙江杭州</Descriptions.Item>
-            <Descriptions.Item label={<Icon type="github" />}><a href="https://github.com/KuaiYu95" target="blank">KuaiYu95</a></Descriptions.Item>
-            <Descriptions.Item label={<Icon type="weibo-circle" />}>经纬贰拾陆</Descriptions.Item>
-          </Descriptions>
-        </div>
-        <div className="test2">
-          <p style={{fontSize: 18, color: '#F45C24', marginLeft: 48, fontFamily: 'cursive'}}>{saohua[(Math.random() * 100 | 0) % 38]}</p>
-          <span style={{marginLeft: 304, marginRight: 32}}>
-            微信：
-          </span>
-          <img style={{width: 100}} src='https://kuaiyu95.github.io/pictures/money/wx.jpg' alt="wxfkm"/>
-          <span style={{marginLeft: 64, marginRight: 32}}>
-            支付宝：
-          </span>
-          <img style={{width: 100}} src='https://kuaiyu95.github.io/pictures/money/zfb.jpg' alt="zfbfkm"/>
+        <div className='side-bar'>
+          <div className="search">
+            <Search
+              size='small'
+              placeholder="搜索"
+              onSearch={this.onSearch}
+            />
+          </div>
+          <div className="personal">
+            <Descriptions title={renderHeader} column={2} size="small">
+              <Descriptions.Item label={<Icon type="wechat" />}>mywx_ky</Descriptions.Item>
+              <Descriptions.Item label={<Icon type="environment" />}>浙江杭州</Descriptions.Item>
+              <Descriptions.Item label={<Icon type="github" />}><a href="https://github.com/KuaiYu95" target="blank">KuaiYu95</a></Descriptions.Item>
+              <Descriptions.Item label={<Icon type="weibo-circle" />}>经纬贰拾陆</Descriptions.Item>
+            </Descriptions>
+          </div>
+          <div className="statistics">
+            <Row type="flex" gutter={16} justify="space-around" align="middle">
+              <Col span={6}>
+                <Link to='/ky/blog'><Statistic title="博客" value={postCount} /></Link>
+              </Col>
+              <Col span={6}>
+                <Link to='/ky/diary'><Statistic title="日记" value={dailyCount} /></Link>
+              </Col>
+              <Col span={6}>
+                <Link to='/ky/footPrint'><Statistic title="足迹" value={footCount} /></Link>
+              </Col>
+              <Col span={6}>
+                <Link to='/ky/pictureWall'><Statistic title="照片" value={photoCount} /></Link>
+              </Col>
+              <Col span={6}>
+                <Link to='/ky/todos'><Statistic title="待办" value={todoCount} /></Link>
+              </Col>
+              <Col span={6}>
+                <Statistic title="收藏" value={urlCount} />
+              </Col>
+              <Col span={6}>
+                <Statistic title="留言板" value={0} />
+              </Col>
+              <Col span={6}>
+                <Statistic title="访问量" value={0} />
+              </Col>
+              <Col span={6}>
+                <Statistic title="点赞量" value={0} />
+              </Col>
+              <Col span={6}>
+                <Statistic title="评论量" value={0} />
+              </Col>
+              <Col span={6}>
+                <Statistic title="like" value={0} />
+              </Col>
+              <Col span={6}>
+                <Statistic title="mark" value={0} />
+              </Col>
+            </Row>
+          </div>
         </div>
       </div>
     )
   }
 }
 
+const User = Form.create({ name: 'register' })(UrlForm);
+export default User
+
+const urlClassis: any = {
+  0: '经常访问',
+  1: '工作',
+  2: 'HTML & CSS',
+  3: 'JAVASCRIPT',
+  4: 'REACT',
+  5: 'LeedCode',
+  6: '数据库',
+  7: '计算机网络',
+  8: '工具',
+  9: '图片',
+  10: 'VPS',
+  11: '其他',
+}
 const saohua = [
   '吃到了一颗好吃的糖，想跟你的嘴巴分享',
   '抱歉不如抱我',
@@ -131,5 +312,13 @@ const saohua = [
   '以前喜欢热闹，现在喜欢独处，以后喜欢你吧',
   '我不相信永远的爱，因为我只会一天比一天更爱你'
 ]
-
-export default User
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 4 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};

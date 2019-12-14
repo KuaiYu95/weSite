@@ -22,6 +22,6 @@ export const getDiary = (data:object) => ajax('/get-diary', 'GET')
 // 添加 日记
 export const addDiary = (data:object) => ajax('/add-diary', 'POST', data)
 // 获取 收藏
-export const getArtical = (data:object) => ajax('/get-artical', 'GET')
+export const getUrl = (data:object) => ajax('/get-url', 'GET')
 // 添加 收藏
-export const addArtical = (data:object) => ajax('/add-artical', 'POST', data)
+export const addUrl = (data:object) => ajax('/add-url', 'POST', data)
