@@ -178,15 +178,15 @@ class UrlForm extends Component<any> {
               </Form>
             </Modal>
           </div>
-          <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p>
+          {/* <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p> */}
           {newUrls.map((it: any, idx: number) => {
             if (idx === 0) return null
             return it.length === 0 ? null : <div className='list' key={idx}>
-              <h4>{urlClassis[+idx]}</h4>
-              <ul>
+              <h4 style={{paddingLeft: 10}}>{urlClassis[+idx]}</h4>
+              <ul style={{listStyle: 'none', padding: 0}}>
                 {it.map((item: any) => {
                   return <li className="list-item" key={item.time}>
-                    <a href={item.url} rel="noopener noreferrer" target='_blank' className='ellipsis'>{item.title}</a>
+                    <a href={item.url} rel="noopener noreferrer" target='_blank' className='ellipsis'><Icon type="link" style={{margin: '0 10px'}} /> {item.title}</a>
                   </li>
                 })}
               </ul>
