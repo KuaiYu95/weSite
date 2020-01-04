@@ -94,7 +94,7 @@ class TimeLine extends React.Component {
         <div className="write">
           <Input className="input" value={content} onChange={this.handleInput} placeholder="请输入时间线标题" />
           <Cascader className="cascader" value={[color]} options={options} onChange={this.handleCascader} placeholder="选择类型" />
-          <Button className="btn" onClick={this.submit}>确定</Button>
+          <Button type="primary" className="btn" onClick={this.submit}>确定</Button>
         </div>
         <div className="timeline">
           {timeline.length !== 0 ? <Timeline mode="alternate" reverse>

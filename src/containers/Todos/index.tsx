@@ -212,11 +212,11 @@ function Todos() {
       <div className="center">
         <Checkbox checked={isAllChecked ? true : false} onClick={handleClickAllCheck} /> 
         <span className="ml"> <span className="left">{left}</span> items left</span>
-        <div style={select === 'All' ? {color:'#F45C24', boxSizing:'border-box', borderBottom: '3px solid #F45C24', } : {}} 
+        <div style={select === 'All' ? {color:'#EBD4AA', boxSizing:'border-box', borderBottom: '3px solid #EBD4AA', } : {}} 
           onClick={() => handleClickSelect('All')} className="all ml">All</div>
-        <div style={select === 'Active' ? {color:'#F45C24', boxSizing:'border-box', borderBottom: '3px solid #F45C24', } : {}} 
+        <div style={select === 'Active' ? {color:'#EBD4AA', boxSizing:'border-box', borderBottom: '3px solid #EBD4AA', } : {}} 
           onClick={() => handleClickSelect('Active')} className="active ml">Active</div>
-        <div style={select === 'Completed' ? {color:'#F45C24', boxSizing:'border-box', borderBottom: '3px solid #F45C24', } : {}} 
+        <div style={select === 'Completed' ? {color:'#EBD4AA', boxSizing:'border-box', borderBottom: '3px solid #EBD4AA', } : {}} 
           onClick={() => handleClickSelect('Completed')} className="completed ml">Completed</div>
         <span className="clear ml" onClick={handleClickCle}><Tag color='blue'>Clear Completed</Tag></span>
       </div>

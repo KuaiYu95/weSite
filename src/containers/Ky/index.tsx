@@ -82,7 +82,7 @@ export default class Ky extends Component<any, any> {
         <PackageBackTop />
         <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} className='ant-layout-sider-light'>
           <div className="logo">
-            <img src='https://kuaiyu95.github.io/pictures/images/1.jpg' alt="logo" style={{width: '100%'}} />
+            weSite
           </div>
           <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {

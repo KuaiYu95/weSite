@@ -53,7 +53,7 @@ class DiaryHtml extends React.Component<any, any> {
     getDiary({}).then((res: any) => {
       let { success, data } = res.data
       let diarys = success ? data.map((it: any, i: number) => {
-        let html = <div style={{ padding: '16px 24px', backgroundColor: 'rgba(0, 0, 0, 0.05)' }} key={i + 's'}>
+        let html = <div style={{ padding: '16px 24px', backgroundColor: '#7F8080', color: '#fff' }} key={i + 's'}>
           {it.content.split('---').map((con: string, idx: number) => {
             return <p style={{ textIndent: '2em' }} key={idx + 't'} >{con}</p>
           })}
@@ -117,7 +117,7 @@ class DiaryHtml extends React.Component<any, any> {
     return (
       <div className="daily">
         <p>
-          <Button onClick={this.isWrite}>
+          <Button type="primary" onClick={this.isWrite}>
             {isWrite && <Icon type="left" />}
             {isWrite ? '日记列表' : '每日一记'}
             {!isWrite && <Icon type="right" />}
@@ -149,7 +149,7 @@ class DiaryHtml extends React.Component<any, any> {
                 })(<TextArea rows={17} />)}
               </Item>
               <Item {...tailFormItemLayout} key='sub'>
-                <Button htmlType="submit" loading={loading}>
+                <Button type="primary" htmlType="submit" loading={loading}>
                   <Icon type="save" />提交
                 </Button>
               </Item>

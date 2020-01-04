@@ -151,7 +151,7 @@ export default class FootPrint extends Component {
               {!isCollect && <>
                 <Tag className='tag' color="#000"><Icon type="compass" /> 经度: {longitude}</Tag>
                 <Tag className='tag' color="#000"><Icon type="compass" rotate={90} /> 纬度: {latitude}</Tag>
-                <Tag className='tag' color="#F45C24" onClick={this.addMap.bind(this)}><Icon type="plus-circle" /> 未收藏，去添加收藏</Tag>
+                <Tag className='tag' color="#888E9D" onClick={this.addMap.bind(this)}><Icon type="plus-circle" /> 未收藏，去添加收藏</Tag>
               </>}
             </div>
           </Map>
