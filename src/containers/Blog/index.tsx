@@ -112,7 +112,7 @@ export default class Blog extends Component {
             {!isWrite && <Icon type="right" />}
           </Button>
         </div>
-        {blogList.map(item => {
+        {!isWrite ? blogList.map(item => {
           let day = new Date(+item.timestamp).toLocaleDateString().split('/') 
           let time = day[0] + '年' + day[1] + '月' + day[2] + '日' + new Date(+item.timestamp).toLocaleTimeString().slice(2)
           return <div className="blog-contain" key={item.id}>
@@ -153,7 +153,9 @@ export default class Blog extends Component {
               </div>
             </div>
           </div>
-        })}
+        }) : <div className="write-blog">
+
+        </div>}
       </div>
     )
   }

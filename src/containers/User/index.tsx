@@ -131,7 +131,7 @@ class UrlForm extends Component<any> {
             <span>经常访问：</span>
             {newUrls[0].map((it: any, idx: number) => {
               return <span key={it.time}>
-                <a href={it.url} target="blank">{it.title}</a><span className="int"></span>
+                <a style={{borderBottom: '1px solid #8fb6d9'}} href={it.url} target="blank">{it.title}</a><span className="int"></span>
               </span>
             })}
             <span><Icon type="plus-circle" onClick={this.showModal} /></span><span className="int"></span>
