@@ -10,11 +10,11 @@ const { TextArea } = Input
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 4 },
+    sm: { span: 2 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 16 },
+    sm: { span: 22 },
   },
 };
 const tailFormItemLayout = {
@@ -29,6 +29,7 @@ const tailFormItemLayout = {
     },
   },
 };
+
 class DiaryHtml extends React.Component<any, any> {
   state = {
     isWrite: false,
@@ -53,9 +54,9 @@ class DiaryHtml extends React.Component<any, any> {
     getDiary({}).then((res: any) => {
       let { success, data } = res.data
       let diarys = success ? data.map((it: any, i: number) => {
-        let html = <div style={{ padding: '16px 24px', backgroundColor: '#7F8080', color: '#fff' }} key={i + 's'}>
-          {it.content.split('---').map((con: string, idx: number) => {
-            return <p style={{ textIndent: '2em' }} key={idx + 't'} >{con}</p>
+        let html = <div style={{ padding: '16px 24px', backgroundColor: '#FCFCF4', color: '#7C7C7C' }} key={i + 's'}>
+          {it.content.split('\n').map((con: string, idx: number) => {
+            return <p style={{ textIndent: '2em', maxWidth: 800, textAlign: 'left' }} key={idx + 't'} >{con}</p>
           })}
         </div>
         return { ...it, html }

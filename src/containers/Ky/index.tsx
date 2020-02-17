@@ -141,8 +141,8 @@ const menuList = [
     type: "line-chart",
     title: "时间线"
   }, {
-    key: '',
-    type: '',
+    key: 'message',
+    type: 'mail',
     title: '留言板',
   }
 ]
@@ -154,7 +154,8 @@ const content:any = {
   footPrint: ' 👣  👣  👣 ',
   todos: '计划',
   timeline: '变更状态记录',
-  pictureWall: '定格的时光'
+  pictureWall: '定格的时光',
+  message: '留言板'
 }
 
 const component:any = {

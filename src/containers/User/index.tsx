@@ -148,18 +148,11 @@ class UrlForm extends Component<any> {
                     initialValue: '0'
                   })(
                     <Select>
-                      <Option value="0">经常访问</Option>
-                      <Option value="1">工作</Option>
-                      <Option value="2">HTML & CSS</Option>
-                      <Option value="3">JAVASCRIPT</Option>
-                      <Option value="4">REACT</Option>
-                      <Option value="5">LeedCode</Option>
-                      <Option value="6">数据库</Option>
-                      <Option value="7">计算机网络</Option>
-                      <Option value="8">工具</Option>
-                      <Option value="9">图片</Option>
-                      <Option value="10">VPS</Option>
-                      <Option value="11">其他</Option>
+                      {
+                        Object.keys(urlClassis).map(it => {
+                          return <Option value={it}>{urlClassis[it]}</Option>
+                        })
+                      }
                     </Select>
                   )}
                 </Item>
@@ -178,7 +171,7 @@ class UrlForm extends Component<any> {
               </Form>
             </Modal>
           </div>
-          {/* <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p> */}
+          <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p>
           {newUrls.map((it: any, idx: number) => {
             if (idx === 0) return null
             return it.length === 0 ? null : <div className='list' key={idx}>
@@ -260,17 +253,17 @@ export default User
 
 const urlClassis: any = {
   0: '经常访问',
-  1: '工作',
-  2: 'HTML & CSS',
-  3: 'JAVASCRIPT',
-  4: 'REACT',
-  5: 'LeedCode',
-  6: '数据库',
+  1: '工作需要',
+  2: '技术框架',
+  3: '数据库',
+  4: '日常工具',
+  5: '技术库',
+  6: '技术文档',
   7: '计算机网络',
-  8: '工具',
+  8: '算法学习',
   9: '图片',
-  10: 'VPS',
-  11: '其他',
+  10: 'VPN',
+  17: '其他',
 }
 const saohua = [
   '吃到了一颗好吃的糖，想跟你的嘴巴分享',

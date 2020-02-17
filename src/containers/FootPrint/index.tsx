@@ -12,7 +12,7 @@ export default class FootPrint extends Component {
     latitude: '30.285995',
     zoom: 0,
     location: '西溪花园 · 芦雪苑',
-    title: '蒯爸爸的家',
+    title: '我们的家',
     time: new Date().toLocaleDateString().split('/').join('-'),
     addMap: false,
     isCollect: true,
@@ -146,7 +146,7 @@ export default class FootPrint extends Component {
                 <Tag className='tag' color="#000"><Icon type="compass" rotate={90} /> 纬度: {latitude}</Tag>
                 <Tag className='tag' color="#000"><Icon type="search" /> 时间: {new Date().toLocaleDateString()}</Tag>
                 <Tag className='tag' color="#000"><Icon type="environment" /> 地点: {location}</Tag>
-                <Tag className='tag' color="#000"><Icon type="menu" /> 描述: {title}</Tag>
+                <Tag className='tag wrap' color="#000"><Icon type="menu" /> 描述: {title}</Tag>
               </>}
               {!isCollect && <>
                 <Tag className='tag' color="#000"><Icon type="compass" /> 经度: {longitude}</Tag>
