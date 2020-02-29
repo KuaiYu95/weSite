@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Icon, Tag, Divider } from 'antd'
+import { Button, Icon, Tag, Divider, Pagination } from 'antd'
 import './index.less'
 
 export default class Blog extends Component {
@@ -16,7 +16,7 @@ export default class Blog extends Component {
         viewCount: 22323,
         tags: ['as', '摩萨'],
         timestamp: '1578108013205'
-      },{
+      }, {
         id: 'woefj34frifji4343145',
         title: '起那段分支',
         summary: '这是一段摘要',
@@ -27,7 +27,7 @@ export default class Blog extends Component {
         viewCount: 22323,
         tags: ['as', '摩萨'],
         timestamp: '1578108013205'
-      },{
+      }, {
         id: 'woefj34frifji4343145',
         title: '起那段分支',
         summary: '这是一段摘要',
@@ -38,7 +38,7 @@ export default class Blog extends Component {
         viewCount: 22323,
         tags: ['as', '摩萨'],
         timestamp: '1578108013205'
-      },{
+      }, {
         id: 'woefj34frifji4343145',
         title: '起那段分支',
         summary: '这是一段摘要',
@@ -49,7 +49,7 @@ export default class Blog extends Component {
         viewCount: 22323,
         tags: ['as', '摩萨'],
         timestamp: '1578108013205'
-      },{
+      }, {
         id: 'woefj34frifji4343145',
         title: '起那段分支',
         summary: '这是一段摘要',
@@ -60,7 +60,7 @@ export default class Blog extends Component {
         viewCount: 22323,
         tags: ['as', '摩萨'],
         timestamp: '1578108013205'
-      },{
+      }, {
         id: 'woefj34frifji4343145',
         title: '起那段分支',
         summary: '这是一段摘要',
@@ -71,7 +71,7 @@ export default class Blog extends Component {
         viewCount: 22323,
         tags: ['as', '摩萨'],
         timestamp: '1578108013205'
-      },{
+      }, {
         id: 'woefj34frifji4343145',
         title: '起那段分支',
         summary: '这是一段摘要',
@@ -87,7 +87,7 @@ export default class Blog extends Component {
     totalNum: 0,
     currentPage: 1,
     pageSize: 10,
-    isWrite: false,
+    isWrite: true,
   }
 
   componentDidMount() {
@@ -96,13 +96,15 @@ export default class Blog extends Component {
 
   isWrite = () => {
     let { isWrite } = this.state
-    this.setState({
-      isWrite: !isWrite
-    })
+    this.setState({ isWrite: !isWrite })
+  }
+
+  onChange = (page: number, pageSize?: number | undefined) => {
+    console.log(page, pageSize);
   }
 
   render() {
-    let {blogList, isWrite} = this.state
+    let { blogList, isWrite } = this.state
     return (
       <div className="blog">
         <div className="tab-line">
@@ -113,7 +115,7 @@ export default class Blog extends Component {
           </Button>
         </div>
         {!isWrite ? blogList.map(item => {
-          let day = new Date(+item.timestamp).toLocaleDateString().split('/') 
+          let day = new Date(+item.timestamp).toLocaleDateString().split('/')
           let time = day[0] + '年' + day[1] + '月' + day[2] + '日' + new Date(+item.timestamp).toLocaleTimeString().slice(2)
           return <div className="blog-contain" key={item.id}>
             <div className="blog-header">
@@ -127,7 +129,7 @@ export default class Blog extends Component {
             <div className="blog-footer">
               <div className="blog-statistic">
                 <span>
-                  <Icon type="like" /> 
+                  <Icon type="like" />
                   <span className="count">{item.likeCount}</span>
                 </span>
                 <Divider type="vertical" />
@@ -137,7 +139,7 @@ export default class Blog extends Component {
                 </span>
                 <Divider type="vertical" />
                 <span>
-                  <Icon type="message" /> 
+                  <Icon type="message" />
                   <span className="count">{item.commentCount}</span>
                 </span>
                 <Divider type="vertical" />
@@ -147,7 +149,7 @@ export default class Blog extends Component {
                 </span>
               </div>
               <div className="blog-timestamp">
-                <Tag color="#f3fcf6" style={{color: '#888E9D'}}>
+                <Tag color="#f3fcf6" style={{ color: '#888E9D' }}>
                   <Icon type="clock-circle" /> {time}
                 </Tag>
               </div>
@@ -155,7 +157,8 @@ export default class Blog extends Component {
           </div>
         }) : <div className="write-blog">
 
-        </div>}
+          </div>}
+        {!isWrite && <Pagination showQuickJumper onChange={this.onChange} defaultCurrent={3} total={500} />}
       </div>
     )
   }
