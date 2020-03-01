@@ -44,7 +44,7 @@ const { Header, Content, Footer, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: true,
-    selectedKeys: ['user'],
+    selectedKeys: [`${localStorage.getItem('navLink') || 'user'}`],
   }
 
   componentWillMount() {
@@ -82,11 +82,11 @@ export default class Ky extends Component<any, any> {
         <PackageBackTop />
         <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} className='ant-layout-sider-light'>
           <div className="logo">
-            weSite
+            KY's Site
           </div>
           <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {
-              return <Menu.Item key={it.key}>
+              return <Menu.Item key={it.key} onClick={() => localStorage.setItem('navLink', it.key)}>
                   <Link to={'/ky/' + it.key}>
                     <Icon type={it.type} />
                     <span>{it.title}</span>
@@ -115,11 +115,11 @@ const menuList = [
   {
     key: "user",
     type: "user",
-    title: "我的主页",
+    title: "主页",
   }, {
     key: "blog",
     type: "file",
-    title: "帖子/论坛",
+    title: "博客",
   }, {
     key: "diary",
     type: "read",
@@ -127,7 +127,7 @@ const menuList = [
   }, {
     key: "footPrint",
     type: "flag",
-    title: "我们的足迹",
+    title: "足迹",
   }, {
     key: "pictureWall",
     type: "picture",
@@ -137,10 +137,10 @@ const menuList = [
     type: "unordered-list",
     title: "待办事项",
   }, {
-    key: "timeline",
-    type: "line-chart",
-    title: "时间线"
-  }, {
+  //   key: "timeline",
+  //   type: "line-chart",
+  //   title: "时间线"
+  // }, {
     key: 'message',
     type: 'mail',
     title: '留言板',
@@ -149,12 +149,12 @@ const menuList = [
 
 const content:any = {
   user: '主页', 
-  blog: '我的博客',
-  diary: '每日一记',
-  footPrint: ' 👣  👣  👣 ',
-  todos: '计划',
-  timeline: '变更状态记录',
-  pictureWall: '定格的时光',
+  blog: '博客',
+  diary: '日记',
+  footPrint: '足迹',
+  todos: '待办事项',
+  // timeline: '变更状态记录',
+  pictureWall: '照片墙',
   message: '留言板'
 }
 
@@ -164,6 +164,6 @@ const component:any = {
   diary: <Diary />,
   footPrint: <FootPrint />,
   todos: <Todos />,
-  timeline: <TimeLine />,
+  // timeline: <TimeLine />,
   pictureWall: <PictureWall />,
 }

@@ -61,6 +61,15 @@ class UrlForm extends Component<any> {
     this.props.form.validateFields((err: any, values: any) => {
       let time = new Date().getTime()
       if (!err) {
+        let { title, url } = values
+        if (title.trim().length <=0) {
+          message.error('请输入标题')
+          return
+        } 
+        if (url.length <= 0 || !url.includes('http') || !url.includes('://') || !url.includes('.')) {
+          message.error('请将链接补充完整（http 或 https）')
+          return
+        }
         addUrl({ ...values, time }).then((res: any) => {
           notification['success']({
             message: '操作提示',
@@ -100,7 +109,7 @@ class UrlForm extends Component<any> {
   onSearch = (value: string) => {
     let { urls } = this.state
     if (value.trim() === '') {
-      this.setState({newUrls: urls})
+      this.setState({ newUrls: urls })
     } else {
       let newUrls = urls.map((urlArr: any, idx: number) => {
         if (idx === 0) {
@@ -120,7 +129,7 @@ class UrlForm extends Component<any> {
     const renderHeader = (
       <div className='avatar-user'>
         <Avatar size="small" src="https://front-images.oss-cn-hangzhou.aliyuncs.com/i4/5b019b627dcc672321b168667d7337e0-88-88.gif" />
-        <span className="username">要什么自行车</span>
+        <span className="username">蒯煜</span>
       </div>
     )
     const { getFieldDecorator } = this.props.form;
@@ -131,7 +140,7 @@ class UrlForm extends Component<any> {
             <span>经常访问：</span>
             {newUrls[0].map((it: any, idx: number) => {
               return <span key={it.time}>
-                <a style={{borderBottom: '1px solid #8fb6d9'}} href={it.url} target="blank">{it.title}</a><span className="int"></span>
+                <a style={{ borderBottom: '1px solid #8fb6d9' }} href={it.url} target="blank">{it.title}</a><span className="int"></span>
               </span>
             })}
             <span><Icon type="plus-circle" onClick={this.showModal} /></span><span className="int"></span>
@@ -171,15 +180,15 @@ class UrlForm extends Component<any> {
               </Form>
             </Modal>
           </div>
-          <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p>
+          {/* <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p> */}
           {newUrls.map((it: any, idx: number) => {
             if (idx === 0) return null
             return it.length === 0 ? null : <div className='list' key={idx}>
-              <h4 style={{paddingLeft: 10}}>{urlClassis[+idx]}</h4>
-              <ul style={{listStyle: 'none', padding: 0}}>
+              <h4 style={{ paddingLeft: 10 }}>{urlClassis[+idx]}</h4>
+              <ul style={{ listStyle: 'none', padding: 0 }}>
                 {it.map((item: any) => {
                   return <li className="list-item" key={item.time}>
-                    <a href={item.url} rel="noopener noreferrer" target='_blank' className='ellipsis'><Icon type="link" style={{margin: '0 10px'}} /> {item.title}</a>
+                    <a href={item.url} rel="noopener noreferrer" target='_blank' className='ellipsis'><Icon type="link" style={{ margin: '0 10px' }} /> {item.title}</a>
                   </li>
                 })}
               </ul>
@@ -205,19 +214,19 @@ class UrlForm extends Component<any> {
           <div className="statistics">
             <Row type="flex" gutter={16} justify="space-around" align="middle">
               <Col span={6}>
-                <Link to='/ky/blog'><Statistic title="博客" value={postCount} /></Link>
+                <Link to='./blog'><Statistic title="博客" value={postCount} /></Link>
               </Col>
               <Col span={6}>
-                <Link to='/ky/diary'><Statistic title="日记" value={dailyCount} /></Link>
+                <Link to='./diary'><Statistic title="日记" value={dailyCount} /></Link>
               </Col>
               <Col span={6}>
-                <Link to='/ky/footPrint'><Statistic title="足迹" value={footCount} /></Link>
+                <Link to='./footPrint'><Statistic title="足迹" value={footCount} /></Link>
               </Col>
               <Col span={6}>
-                <Link to='/ky/pictureWall'><Statistic title="照片" value={photoCount} /></Link>
+                <Link to='./pictureWall'><Statistic title="照片" value={photoCount} /></Link>
               </Col>
               <Col span={6}>
-                <Link to='/ky/todos'><Statistic title="待办" value={todoCount} /></Link>
+                <Link to='./todos'><Statistic title="待办" value={todoCount} /></Link>
               </Col>
               <Col span={6}>
                 <Statistic title="收藏" value={urlCount} />

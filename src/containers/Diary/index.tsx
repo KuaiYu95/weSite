@@ -62,12 +62,6 @@ class DiaryHtml extends React.Component<any, any> {
         return { ...it, html }
       }) : []
       success && this.setState({ diarys })
-    }).catch(() => {
-      notification['error']({
-        message: '操作提示',
-        description: '添加失败，返回报错',
-        duration: 2
-      })
     })
   }
 
