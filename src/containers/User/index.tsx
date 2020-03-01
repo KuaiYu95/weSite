@@ -19,8 +19,8 @@ class UrlForm extends Component<any> {
     photoCount: 0,
     featCount: 0,
     money: 0,
-    urls: [],
-    newUrls: [[]],
+    urls: new Array(20).fill([]),
+    newUrls: new Array(20).fill([]),
     title: '',
     url: '',
   }
@@ -39,7 +39,7 @@ class UrlForm extends Component<any> {
     })
     getUrl({}).then((res: any) => {
       if (res.data && res.data.success) {
-        let newUrls: any = new Array(20).fill([])
+        let newUrls: any = new Array(20).fill(undefined).map(() => [])
         res.data.data.map((it: any) => {
           newUrls[+it.classis].push(it)
           return null
