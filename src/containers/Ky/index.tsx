@@ -40,7 +40,7 @@ let FootPrint = Loadable({
   loading: Loading
 })
 
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Content, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: true,
@@ -78,7 +78,7 @@ export default class Ky extends Component<any, any> {
     const headTitle = content[selectedKeys[0]]
     const bodyComponent = component[selectedKeys[0]]
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{ height: '100vh' }}>
         <PackageBackTop />
         <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} className='ant-layout-sider-light'>
           <div className="logo">
@@ -98,13 +98,10 @@ export default class Ky extends Component<any, any> {
         <Layout>
           <Header className="ky-header">{headTitle}</Header>
           <Content style={{ margin: '0 16px' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 630, marginTop: 16 }}>
+            <div style={{ padding: 24, background: '#fff', height: 'calc(100vh - 96px)', margin: '16px 0', overflow: 'scorll' }}>
               {bodyComponent ? bodyComponent : <Empty description="暂无数据" />}
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            <Link to="/"><Button type="dashed">返回首页</Button></Link>
-          </Footer>
         </Layout>
       </Layout>
     )
@@ -165,5 +162,5 @@ const component:any = {
   footPrint: <FootPrint />,
   todos: <Todos />,
   // timeline: <TimeLine />,
-  pictureWall: <PictureWall />,
+  // pictureWall: <PictureWall />,
 }

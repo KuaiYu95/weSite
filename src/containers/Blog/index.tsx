@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Icon, Tag, Divider, Pagination } from 'antd'
+import { Button, Icon, Tag, Divider, Pagination, Upload, Input, Select } from 'antd'
+import ReactMarkdown from 'react-markdown/with-html';
+import CodeBlock from '../../components/CodeBlock/index';
 import './index.less'
-
+const { Option } = Select
+const { Search } = Input;
 export default class Blog extends Component {
   state = {
     blogList: [
@@ -88,10 +91,14 @@ export default class Blog extends Component {
     currentPage: 1,
     pageSize: 10,
     isWrite: true,
+    markdown: '',
   }
 
   componentDidMount() {
-
+    // let AppMarkdown = require('./test.md')
+    // fetch(AppMarkdown)
+    //   .then(res => res.text())
+    //   .then(text => this.setState({ markdown: text }));
   }
 
   isWrite = () => {
@@ -103,8 +110,12 @@ export default class Blog extends Component {
     console.log(page, pageSize);
   }
 
+  onSearch = (value: string) => {
+    
+  }
+
   render() {
-    let { blogList, isWrite } = this.state
+    let { blogList, isWrite, markdown } = this.state
     return (
       <div className="blog">
         <div className="tab-line">
@@ -113,6 +124,22 @@ export default class Blog extends Component {
             {isWrite ? '博客列表' : '发布博客'}
             {!isWrite && <Icon type="right" />}
           </Button>
+          {isWrite && <Input placeholder="请输入标题" />}
+          {!isWrite && <Search placeholder="搜索" onSearch={this.onSearch} />}
+          {!isWrite && <Select defaultValue="0">
+            <Option value="0">最近更新 </Option>
+            <Option value="1">最多评论 </Option>
+            <Option value="2">最多点赞 </Option>
+            <Option value="3">最多查看 </Option>
+            <Option value="4">最多收藏 </Option>
+          </Select>}
+          <Select defaultValue='0' style={{ width: 400 }}>
+            <Option value="0">HTML</Option>
+            <Option value="1">JS</Option>
+          </Select>
+          <Upload showUploadList={false}>
+            <Button><Icon type="upload" />上传 Markdown 文件</Button>
+          </Upload>
         </div>
         {!isWrite ? blogList.map(item => {
           let day = new Date(+item.timestamp).toLocaleDateString().split('/')
@@ -156,7 +183,14 @@ export default class Blog extends Component {
             </div>
           </div>
         }) : <div className="write-blog">
-
+            <ReactMarkdown
+              className="markdown-body"
+              source={markdown}
+              escapeHtml={false}
+              renderers={{
+                code: CodeBlock,
+              }}
+            />
           </div>}
         {!isWrite && <Pagination showQuickJumper onChange={this.onChange} defaultCurrent={3} total={500} />}
       </div>
