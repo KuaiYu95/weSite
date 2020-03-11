@@ -1,30 +1,30 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Switch, Route } from 'react-router-dom'
 import { Layout, Menu, Icon, Empty } from 'antd'
 import Loadable from 'react-loadable'
 import Loading from '../../components/Loading'
-import NProgress from 'nprogress' 
+import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import './index.less'
 
 let PackageBackTop = Loadable({
-  loader:()=>import('../../components/BackTop'),
+  loader: () => import('../../components/BackTop'),
   loading: Loading
 })
 let User = Loadable({
-  loader:()=>import('../User'),
+  loader: () => import('../User'),
   loading: Loading
 })
 let Blog = Loadable({
-  loader:()=>import('../Blog'),
+  loader: () => import('../Blog'),
   loading: Loading
 })
 let Diary = Loadable({
-  loader:()=>import('../Diary'),
+  loader: () => import('../Diary'),
   loading: Loading
 })
 let Todos = Loadable({
-  loader:()=>import('../Todos'),
+  loader: () => import('../Todos'),
   loading: Loading
 })
 // let TimeLine = Loadable({
@@ -36,7 +36,7 @@ let Todos = Loadable({
 //   loading: Loading
 // })
 let FootPrint = Loadable({
-  loader:()=>import('../FootPrint'),
+  loader: () => import('../FootPrint'),
   loading: Loading
 })
 
@@ -44,11 +44,13 @@ const { Header, Content, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: true,
-    selectedKeys: [`${localStorage.getItem('navLink') || 'user'}`],
+    selectedKeys: ['user'],
   }
 
   componentWillMount() {
     NProgress.start()
+    let pathname = window.location.pathname.slice(1)
+    this.setState({ selectedKeys: [pathname] })
   }
 
   componentWillUpdate() {
@@ -63,43 +65,55 @@ export default class Ky extends Component<any, any> {
     NProgress.done()
   }
 
-  onCollapse = (collapsed:boolean) => {
+  onCollapse = (collapsed: boolean) => {
     this.setState({ collapsed });
   }
 
-  handleClick = ({ selectedKeys }:any) => {
-    this.setState({
-      selectedKeys
-    })
+  handleClick = ({ selectedKeys }: any) => {
+    this.setState({ selectedKeys })
+  }
+
+  renderEmpty() {
+    return <Empty description="开发中，尽情期待吧" style={{ color: '#fff', marginTop: '30vh', fontSize: 20, lineHeight: '48px' }} />
   }
 
   render() {
     const { collapsed, selectedKeys } = this.state
     const headTitle = content[selectedKeys[0]]
-    const bodyComponent = component[selectedKeys[0]]
     return (
       <Layout style={{ height: '100vh' }}>
         <PackageBackTop />
         <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} className='ant-layout-sider-light'>
           <div className="logo">
-            KY's Site
+            YYJ
           </div>
           <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {
               return <Menu.Item key={it.key} onClick={() => localStorage.setItem('navLink', it.key)}>
-                  <Link to={'/ky/' + it.key}>
-                    <Icon type={it.type} />
-                    <span>{it.title}</span>
-                  </Link>
-                </Menu.Item>
+                <Link to={it.key}>
+                  <Icon type={it.type} />
+                  <span>{it.title}</span>
+                </Link>
+              </Menu.Item>
             })}
           </Menu>
         </Sider>
         <Layout>
-          <Header className="ky-header">{headTitle}</Header>
+          <Header id="header-title" className="ky-header">{headTitle}</Header>
           <Content style={{ margin: '0 16px' }}>
-            <div style={{ padding: 24, background: '#fff', height: 'calc(100vh - 96px)', margin: '16px 0', overflow: 'scorll' }}>
-              {bodyComponent ? bodyComponent : <Empty description="暂无数据" />}
+            <div className="content" style={{ height: 'calc(100vh - 96px)', margin: '16px 0' }}>
+              <div id='stars'></div>
+              <div id='stars2'></div>
+              <div id='stars3'></div>
+              <Switch>
+                <Route path='/blog' component={Blog} />
+                <Route path='/diary' component={Diary} />
+                <Route path='/footPrint' component={FootPrint} />
+                <Route path='/pictureWall' component={this.renderEmpty} />
+                <Route path='/todos' component={Todos} />
+                <Route path='/user' component={User} />
+                <Route path='/message' component={this.renderEmpty} />
+              </Switch>
             </div>
           </Content>
         </Layout>
@@ -134,18 +148,18 @@ const menuList = [
     type: "unordered-list",
     title: "待办事项",
   }, {
-  //   key: "timeline",
-  //   type: "line-chart",
-  //   title: "时间线"
-  // }, {
+    //   key: "timeline",
+    //   type: "line-chart",
+    //   title: "时间线"
+    // }, {
     key: 'message',
     type: 'mail',
     title: '留言板',
   }
 ]
 
-const content:any = {
-  user: '主页', 
+const content: any = {
+  user: '主页',
   blog: '博客',
   diary: '日记',
   footPrint: '足迹',
@@ -153,14 +167,4 @@ const content:any = {
   // timeline: '变更状态记录',
   pictureWall: '照片墙',
   message: '留言板'
-}
-
-const component:any = {
-  user: <User />,
-  blog: <Blog />,
-  diary: <Diary />,
-  footPrint: <FootPrint />,
-  todos: <Todos />,
-  // timeline: <TimeLine />,
-  // pictureWall: <PictureWall />,
 }

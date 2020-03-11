@@ -1,106 +1,45 @@
 import React, { Component } from 'react'
-import { Button, Icon, Tag, Divider, Pagination, Input, Select, message } from 'antd'
+import { Button, Icon, Tag, Divider, Pagination, Input, Select, message, notification, Empty } from 'antd'
 import ReactMarkdown from 'react-markdown/with-html';
 import CodeBlock from '../../components/CodeBlock/index';
 import MdEditor from '../../components/MdEditor/index'
+import moment from 'moment';
+import { addBlog, getBlog, getBlogDetail } from '../../api/index';
 import './index.less'
 
 const { Option } = Select
 const { Search } = Input;
 export default class Blog extends Component {
   state = {
-    blogList: [
-      {
-        id: 'woefj34frifji4343145',
-        title: '起那段分支',
-        summary: '这是一段摘要',
-        content: '这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容',
-        likeCount: 244,
-        starCount: 1,
-        commentCount: 10,
-        viewCount: 22323,
-        tags: ['as', '摩萨'],
-        timestamp: '1578108013205'
-      }, {
-        id: 'woefj34frifji4343145',
-        title: '起那段分支',
-        summary: '这是一段摘要',
-        content: '这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容',
-        likeCount: 244,
-        starCount: 1,
-        commentCount: 10,
-        viewCount: 22323,
-        tags: ['as', '摩萨'],
-        timestamp: '1578108013205'
-      }, {
-        id: 'woefj34frifji4343145',
-        title: '起那段分支',
-        summary: '这是一段摘要',
-        content: '这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容',
-        likeCount: 244,
-        starCount: 1,
-        commentCount: 10,
-        viewCount: 22323,
-        tags: ['as', '摩萨'],
-        timestamp: '1578108013205'
-      }, {
-        id: 'woefj34frifji4343145',
-        title: '起那段分支',
-        summary: '这是一段摘要',
-        content: '这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容',
-        likeCount: 244,
-        starCount: 1,
-        commentCount: 10,
-        viewCount: 22323,
-        tags: ['as', '摩萨'],
-        timestamp: '1578108013205'
-      }, {
-        id: 'woefj34frifji4343145',
-        title: '起那段分支',
-        summary: '这是一段摘要',
-        content: '这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容',
-        likeCount: 244,
-        starCount: 1,
-        commentCount: 10,
-        viewCount: 22323,
-        tags: ['as', '摩萨'],
-        timestamp: '1578108013205'
-      }, {
-        id: 'woefj34frifji4343145',
-        title: '起那段分支',
-        summary: '这是一段摘要',
-        content: '这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容',
-        likeCount: 244,
-        starCount: 1,
-        commentCount: 10,
-        viewCount: 22323,
-        tags: ['as', '摩萨'],
-        timestamp: '1578108013205'
-      }, {
-        id: 'woefj34frifji4343145',
-        title: '起那段分支',
-        summary: '这是一段摘要',
-        content: '这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容这是文本内容',
-        likeCount: 244,
-        starCount: 1,
-        commentCount: 10,
-        viewCount: 22323,
-        tags: ['as', '摩萨'],
-        timestamp: '1578108013205'
-      }
-    ],
-    totalNum: 0,
+    blogList: [],
+    totalItems: 0,
     currentPage: 1,
     pageSize: 10,
-    isWrite: true,
+    searchSort: '0',
+    searchType: '',
+    searchValue: '',
     text: '',
     title: '',
     html: '',
-    typeIds: []
+    typeIds: [],
+    isWrite: false,
+    isView: false,
   }
 
   componentDidMount() {
+    this.getData()
+  }
 
+  getData = () => {
+    let { currentPage, pageSize, searchSort, searchValue, searchType } = this.state
+    getBlog({ currentPage, pageSize, searchSort, searchValue, searchType }).then((res: any) => {
+      let { success, data, totalItems } = res.data
+      if (success) {
+        this.setState({ blogList: data, totalItems })
+      } else {
+        message.error('访问接口失败，请检查网络')
+      }
+    })
   }
 
   isWrite = () => {
@@ -113,11 +52,32 @@ export default class Blog extends Component {
   }
 
   onSearch = (value: string) => {
-
+    this.setState({ searchValue: value }, () => {
+      this.getData()
+    })
   }
 
   handleSelect = (value: any) => {
-    this.setState({ typeIds: value })
+    this.setState({ typeIds: value }, () => {
+      this.getData()
+    })
+  }
+
+  handleSelectSort = (value: any) => {
+    this.setState({ searchType: value }, () => {
+      this.getData()
+    })
+  }
+
+  handleSearchSort = (value: string) => {
+    this.setState({ searchSort: value }, () => {
+      this.getData()
+    })
+  }
+
+  handleTitle = (e: any) => {
+    let { value } = e.target
+    this.setState({ title: value })
   }
 
   getValue = (html: string, text: string) => {
@@ -130,9 +90,9 @@ export default class Blog extends Component {
       let reader = new FileReader()
       if (/text\/markdown/.test(file.type)) {
         reader.onload = (event: any) => {
-          this.setState({ 
+          this.setState({
             title: file.name.split('.md')[0],
-            text: event.target.result 
+            text: event.target.result
           })
         }
         reader.readAsText(file);
@@ -142,114 +102,156 @@ export default class Blog extends Component {
     }
   }
 
+  handleViewBlog = (_id: string) => {
+    getBlogDetail({ _id }).then((res: any) => {
+      let { success, data } = res.data
+      let { title, _id, html, text } = data
+      if (success) {
+        this.setState({ title, _id, html, text, isView: true })
+      } else {
+        message.error('访问接口失败，请检查网络')
+      }
+    })
+  }
+
   onSubmit = () => {
-    let {title, text, html, typeIds} = this.state
+    let { title, text, html, typeIds } = this.state
     let uploadTime = new Date().getTime()
     let lastModifyTime = uploadTime
     let commentCount = 0, likeCount = 0, collectCount = 0, viewCount = 0
-    console.log({title, text, html, typeIds, uploadTime, lastModifyTime, commentCount, likeCount, collectCount, viewCount})
+    if (title.trim() === '') {
+      message.warning('请输入标题')
+    } else if (typeIds.length === 0) {
+      message.warning('请对博客分类')
+    } else if (text.trim() === '') {
+      message.warning('请输入内容')
+    } else {
+      addBlog({ title: title.trim(), text, html, typeIds, uploadTime, lastModifyTime, commentCount, likeCount, collectCount, viewCount }).then((res: any) => {
+        let { success } = res.data
+        if (success) {
+          notification['success']({
+            message: '操作提示',
+            description: `${title}发布成功`,
+            duration: 2
+          })
+          this.setState({ title: '', text: '', typeIds: [], html: '', isWrite: false }, () => {
+            this.getData()
+          })
+        } else {
+          message.error('发布失败，请检查网络')
+        }
+      })
+    }
   }
 
   render() {
-    let { blogList, isWrite, text, title } = this.state
-    let limitMd: any = {
-      name: 'markdown',
-      showUploadList: false,
-      onChange(info: any) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
-    }
+    let { blogList, isWrite, text, title, typeIds, totalItems, searchSort, searchType, isView } = this.state
     return (
-      <div className="blog">
-        <div className="tab-line">
-          <Button type="primary" onClick={this.isWrite}>
-            {isWrite && <Icon type="left" />}
-            {isWrite ? '博客列表' : '发布博客'}
-            {!isWrite && <Icon type="right" />}
-          </Button>
-          {isWrite && <Input placeholder="请输入标题" value={title} />}
-          {!isWrite && <Search placeholder="搜索" onSearch={this.onSearch} />}
-          {!isWrite && <Select defaultValue="0" style={{ width: 400 }}>
-            <Option value="0">最近更新 </Option>
-            <Option value="1">最多评论 </Option>
-            <Option value="2">最多点赞 </Option>
-            <Option value="3">最多查看 </Option>
-            <Option value="4">最多收藏 </Option>
-          </Select>}
-          {!isWrite && <Select defaultValue='0' style={{ width: 400 }}>
-            <Option value="0">HTML</Option>
-            <Option value="1">JS</Option>
-          </Select>}
-          {isWrite && <Select placeholder="请对博客分类" mode="multiple" style={{ width: 400 }} onChange={this.handleSelect}>
-            <Option value="0">HTML</Option>
-            <Option value="1">JS</Option>
-          </Select>}
-          <label htmlFor={"aaaa"}>
-            <span className="upload"><Icon type="upload" /> 上传 Markdown 文件</span>
-            <input style={{display:'none'}} id="aaaa" type="file" onChange={this.getFile} />
-          </label>
-          {isWrite && <Button onClick={this.onSubmit}>发布</Button>}
-        </div>
-        {!isWrite ? blogList.map(item => {
-          let day = new Date(+item.timestamp).toLocaleDateString().split('/')
-          let time = day[0] + '年' + day[1] + '月' + day[2] + '日' + new Date(+item.timestamp).toLocaleTimeString().slice(2)
-          return <div className="blog-contain" key={item.id}>
-            <div className="blog-header">
-              <div className="blog-title"><Icon type="medium" /> {item.title}</div>
-              <div className="blog-tags">{item.tags.map((it, index) => {
-                return <span className="blog-tags-item" key={index}><Tag color="#637C8F">{it}</Tag></span>
-              })}</div>
-            </div>
-            <div className="blog-summary ellipsis">* {item.summary}</div>
-            <div className="blog-content">{item.content}</div>
-            <div className="blog-footer">
-              <div className="blog-statistic">
-                <span>
-                  <Icon type="like" />
-                  <span className="count">{item.likeCount}</span>
-                </span>
-                <Divider type="vertical" />
-                <span>
-                  <Icon type="star" />
-                  <span className="count">{item.starCount}</span>
-                </span>
-                <Divider type="vertical" />
-                <span>
-                  <Icon type="message" />
-                  <span className="count">{item.commentCount}</span>
-                </span>
-                <Divider type="vertical" />
-                <span>
-                  <Icon type="eye" />
-                  <span className="count">{item.viewCount}</span>
-                </span>
-              </div>
-              <div className="blog-timestamp">
-                <Tag color="#f3fcf6" style={{ color: '#888E9D' }}>
-                  <Icon type="clock-circle" /> {time}
-                </Tag>
-              </div>
-            </div>
+      <div className="blog" style={{ padding: !isView ? 24 : 0, overflow: isView ? 'auto' : 'hidden', margin: 'auto' }}>
+        {!isView ? <>
+          <div className="tab-line" style={{ width: isWrite ? '100%' : '800px', margin: !isWrite ? 'auto' : '0 0 16px' }}>
+            <Button type="primary" onClick={this.isWrite}>
+              {isWrite && <Icon type="left" />}
+              {isWrite ? '博客列表' : '发布博客'}
+              {!isWrite && <Icon type="right" />}
+            </Button>
+            {isWrite && <Input placeholder="请输入标题" value={title} onChange={this.handleTitle} allowClear />}
+            {!isWrite && <Search placeholder="搜索" onSearch={this.onSearch} />}
+            {!isWrite && <Select defaultValue={searchSort} style={{ width: 400 }} onChange={this.handleSearchSort}>
+              <Option value="0">最近更新 </Option>
+              <Option value="2">最多点赞 </Option>
+              <Option value="4">最多收藏 </Option>
+              <Option value="1">最多评论 </Option>
+              <Option value="3">最多查看 </Option>
+            </Select>}
+            {!isWrite && <Select defaultValue={searchType} style={{ width: 400 }} onChange={this.handleSelectSort}>
+              <Option value="">全部 </Option>
+              {blogType.map((it: any) => {
+                return <Option key={it}>{it}</Option>
+              })}
+            </Select>}
+            {isWrite && <Select placeholder="请对博客分类" mode="multiple" style={{ minWidth: 235 }} value={typeIds} onChange={this.handleSelect} maxTagCount={2} maxTagTextLength={4}>
+              {blogType.map((it: any) => {
+                return <Option key={it}>{it}</Option>
+              })}
+            </Select>}
+            {isWrite && <label htmlFor={"aaaa"}>
+              <span className="upload"><Icon type="upload" /> 上传 Markdown 文件</span>
+              <input style={{ display: 'none' }} id="aaaa" type="file" onChange={this.getFile} />
+            </label>}
+            {isWrite && <Button onClick={this.onSubmit}>发布</Button>}
           </div>
-        }) : <div className="write-blog">
+          {!isWrite && (blogList.length > 0 ? blogList.map((item: any) => {
+            let isUploadTime = item.uploadTime === item.lastModifyTime
+            let time = moment(+item.lastModifyTime).format('YYYY-MM-DD kk:mm:ss')
+            return <div className="blog-contain" style={isWrite ? {} : { margin: '16px auto 0' }} key={item._id}>
+              <div className="blog-header">
+                <div className="blog-title" onClick={() => this.handleViewBlog(item._id)}><Icon type="medium" /> {item.title}</div>
+                <div className="blog-tags">{item.typeIds.map((it: string, index: number) => {
+                  return <span className="blog-tags-item" key={index}><Tag color="#637C8F">{it}</Tag></span>
+                })}</div>
+              </div>
+              <div className="blog-content">{item.text}</div>
+              <div className="blog-footer">
+                <div className="blog-statistic" onClick={() => message.warning('开发中，尽情期待吧')}>
+                  <span>
+                    <Icon type="like" />
+                    <span className="count">{item.likeCount}</span>
+                  </span>
+                  <Divider type="vertical" />
+                  <span>
+                    <Icon type="star" />
+                    <span className="count">{item.collectCount}</span>
+                  </span>
+                  <Divider type="vertical" />
+                  <span>
+                    <Icon type="message" />
+                    <span className="count">{item.commentCount}</span>
+                  </span>
+                  <Divider type="vertical" />
+                  <span>
+                    <Icon type="eye" />
+                    <span className="count">{item.viewCount}</span>
+                  </span>
+                </div>
+                <div className="blog-timestamp">
+                  <Tag color="#f3fcf6" style={{ color: '#888E9D' }}>
+                    {isUploadTime ? '发布时间：' : '最后更新时间：'}<Icon type="clock-circle" /> {time}
+                  </Tag>
+                </div>
+              </div>
+            </div>
+          }) : <Empty description="没有找到您想要到博客" style={{ color: '#fff', marginTop: '10vh', fontSize: 20, lineHeight: '48px' }} />)}
+          {isWrite && <div className="write-blog">
             <MdEditor getValue={this.getValue} value={text} />
-            {/* {!markdown ? <MdEditor getValue={this.getValue} />
-              : <ReactMarkdown
+          </div>}
+          {!isWrite && <Pagination
+            showQuickJumper
+            onChange={this.onChange}
+            defaultCurrent={1}
+            total={totalItems}
+            showTotal={total => `搜索到 ${total} 条`}
+            hideOnSinglePage
+            style={{ textAlign: 'right', width: 800 }}
+          />}
+        </> : <div className="blog-cont">
+            <div className="info">
+              <h1>{title}</h1>
+            </div>
+            <div className="md">
+              <ReactMarkdown
                 className="markdown-body"
-                source={markdown}
+                source={text}
                 escapeHtml={false}
                 renderers={{ code: CodeBlock }}
-              />} */}
+              />
+            </div>
           </div>}
-        {!isWrite && <Pagination showQuickJumper onChange={this.onChange} defaultCurrent={3} total={500} />}
       </div>
     )
   }
 }
+
+const blogType = [
+  'HTML / CSS', 'JS / TS', 'React及其周边技术栈', '各端小程序开发', '移动端 H5', 'webpack', '其他技术框架', '数据库', '数据结构与算法', '开发工具', '计算机网络', '其他'
+]

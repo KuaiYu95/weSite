@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Modal, Avatar, Icon, Input, Descriptions, Statistic, Row, Col, message, Form, Select, notification } from 'antd'
-import { Link } from 'react-router-dom'
 import { getTotal, getUrl, addUrl } from '../../api'
 import './index.less'
 
@@ -10,9 +9,8 @@ const { Item } = Form
 class UrlForm extends Component<any> {
   state = {
     visible: false,
-    postCount: 0,
     urlCount: 0,
-    articalCount: 0,
+    blogCount: 0,
     todoCount: 0,
     dailyCount: 0,
     footCount: 0,
@@ -125,11 +123,11 @@ class UrlForm extends Component<any> {
   }
 
   render() {
-    const { postCount, todoCount, dailyCount, footCount, photoCount, newUrls, visible, urlCount, title, url } = this.state
+    const { blogCount, todoCount, dailyCount, footCount, photoCount, newUrls, visible, urlCount, title, url } = this.state
     const renderHeader = (
       <div className='avatar-user'>
         <Avatar size="small" src="https://front-images.oss-cn-hangzhou.aliyuncs.com/i4/5b019b627dcc672321b168667d7337e0-88-88.gif" />
-        <span className="username">蒯煜</span>
+        <span className="username">闫永娟</span>
       </div>
     )
     const { getFieldDecorator } = this.props.form;
@@ -180,7 +178,6 @@ class UrlForm extends Component<any> {
               </Form>
             </Modal>
           </div>
-          {/* <p className='saohua'>{saohua[(Math.random() * 100 | 0) % 38]}</p> */}
           {newUrls.map((it: any, idx: number) => {
             if (idx === 0) return null
             return it.length === 0 ? null : <div className='list' key={idx}>
@@ -205,49 +202,43 @@ class UrlForm extends Component<any> {
           </div>
           <div className="personal">
             <Descriptions title={renderHeader} column={2} size="small">
-              <Descriptions.Item label={<Icon type="wechat" />}>mywx_ky</Descriptions.Item>
+              <Descriptions.Item label={<Icon type="wechat" />}>17797776003</Descriptions.Item>
               <Descriptions.Item label={<Icon type="environment" />}>浙江杭州</Descriptions.Item>
-              <Descriptions.Item label={<Icon type="github" />}><a href="https://github.com/KuaiYu95" target="blank">KuaiYu95</a></Descriptions.Item>
-              <Descriptions.Item label={<Icon type="weibo-circle" />}>经纬贰拾陆</Descriptions.Item>
+              <Descriptions.Item label={<Icon type="github" />}><a href="https://github.com/juanjuanya" target="blank">juanjuanya</a></Descriptions.Item>
+              {/* <Descriptions.Item label={<Icon type="weibo-circle" />}>经纬贰拾陆</Descriptions.Item> */}
             </Descriptions>
           </div>
           <div className="statistics">
             <Row type="flex" gutter={16} justify="space-around" align="middle">
               <Col span={6}>
-                <Link to='./blog'><Statistic title="博客" value={postCount} /></Link>
+                <Statistic title="博客" value={blogCount} />
               </Col>
               <Col span={6}>
-                <Link to='./diary'><Statistic title="日记" value={dailyCount} /></Link>
+                <Statistic title="日记" value={dailyCount} />
               </Col>
               <Col span={6}>
-                <Link to='./footPrint'><Statistic title="足迹" value={footCount} /></Link>
+                <Statistic title="足迹" value={footCount} />
               </Col>
               <Col span={6}>
-                <Link to='./pictureWall'><Statistic title="照片" value={photoCount} /></Link>
-              </Col>
-              <Col span={6}>
-                <Link to='./todos'><Statistic title="待办" value={todoCount} /></Link>
-              </Col>
-              <Col span={6}>
-                <Statistic title="收藏" value={urlCount} />
+                <Statistic title="照片" value={photoCount} />
               </Col>
               <Col span={6}>
                 <Statistic title="留言板" value={0} />
               </Col>
               <Col span={6}>
-                <Statistic title="访问量" value={0} />
+                <Statistic title="访问数" value={0} />
               </Col>
               <Col span={6}>
-                <Statistic title="点赞量" value={0} />
+                <Statistic title="待办事项" value={todoCount} />
               </Col>
               <Col span={6}>
-                <Statistic title="评论量" value={0} />
+                <Statistic title="收藏链接" value={urlCount} />
               </Col>
-              <Col span={6}>
-                <Statistic title="like" value={0} />
+              <Col span={12}>
+                <Statistic title="博客点赞数" value={0} />
               </Col>
-              <Col span={6}>
-                <Statistic title="mark" value={0} />
+              <Col span={12}>
+                <Statistic title="博客评论数" value={0} />
               </Col>
             </Row>
           </div>

@@ -1,6 +1,6 @@
 .blog {
+  height: 100%;
   .tab-line {
-    width: 100%;
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -11,6 +11,7 @@
       border: 1px solid #ddd;
       padding: 4.5px;
       border-radius: 4px;
+      background-color: #fff;
     }
     >* {
       margin: 0 5px;
@@ -21,7 +22,7 @@
     box-shadow: 0 0 4px #3E87E3;
   }
   .blog-contain {
-    width: 80%;
+    width: 800px;
     margin: 16px 0;
     padding: 10px 16px;
     overflow: hidden;
@@ -68,18 +69,50 @@
     }
     .blog-footer {
       .blog-statistic {
-        float: left;
+        float: right;
         .count {
           margin-left: 5px;
         }
       }
       .blog-timestamp {
-        float: right;
+        float: left;
       }
     }
   }
 }
+.blog-cont {
+  overflow: auto;
+  .info {
+    margin: auto;
+    h1 {
+      font-size: 32px;
+      text-align: center;
+      color: #fff;
+      background: -webkit-linear-gradient(white, #38495a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: "lato", sans-serif;
+      font-weight: 300;
+      font-size: 50px;
+    }
+  }
+  .md {
+    width: 800px;
+    margin: auto;
+    background: -webkit-linear-gradient(white, #38495a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    padding: 20px;
 
+    a {
+      color: blue;
+      background: -webkit-linear-gradient(blue, #38495a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
 .write-blog {
   display: flex;
   .rc-md-editor, .markdown-body {
