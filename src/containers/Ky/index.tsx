@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Layout, Menu, Icon, Button, Empty } from 'antd'
+import { Layout, Menu, Icon, Empty } from 'antd'
 import Loadable from 'react-loadable'
 import Loading from '../../components/Loading'
 import NProgress from 'nprogress' 
@@ -27,14 +27,14 @@ let Todos = Loadable({
   loader:()=>import('../Todos'),
   loading: Loading
 })
-let TimeLine = Loadable({
-  loader:()=>import('../TimeLine'),
-  loading: Loading
-})
-let PictureWall = Loadable({
-  loader:()=>import('../PictureWall'),
-  loading: Loading
-})
+// let TimeLine = Loadable({
+//   loader:()=>import('../TimeLine'),
+//   loading: Loading
+// })
+// let PictureWall = Loadable({
+//   loader:()=>import('../PictureWall'),
+//   loading: Loading
+// })
 let FootPrint = Loadable({
   loader:()=>import('../FootPrint'),
   loading: Loading

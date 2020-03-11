@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Icon, Tag, Divider, Pagination, Upload, Input, Select } from 'antd'
+import { Button, Icon, Tag, Divider, Pagination, Input, Select, message } from 'antd'
 import ReactMarkdown from 'react-markdown/with-html';
 import CodeBlock from '../../components/CodeBlock/index';
+import MdEditor from '../../components/MdEditor/index'
 import './index.less'
+
 const { Option } = Select
 const { Search } = Input;
 export default class Blog extends Component {
@@ -91,14 +93,14 @@ export default class Blog extends Component {
     currentPage: 1,
     pageSize: 10,
     isWrite: true,
-    markdown: '',
+    text: '',
+    title: '',
+    html: '',
+    typeIds: []
   }
 
   componentDidMount() {
-    // let AppMarkdown = require('./test.md')
-    // fetch(AppMarkdown)
-    //   .then(res => res.text())
-    //   .then(text => this.setState({ markdown: text }));
+
   }
 
   isWrite = () => {
@@ -111,11 +113,59 @@ export default class Blog extends Component {
   }
 
   onSearch = (value: string) => {
-    
+
+  }
+
+  handleSelect = (value: any) => {
+    this.setState({ typeIds: value })
+  }
+
+  getValue = (html: string, text: string) => {
+    this.setState({ html, text })
+  }
+
+  getFile = (event: any) => {
+    if (event.target.files.length) {
+      let file = event.target.files[0];
+      let reader = new FileReader()
+      if (/text\/markdown/.test(file.type)) {
+        reader.onload = (event: any) => {
+          this.setState({ 
+            title: file.name.split('.md')[0],
+            text: event.target.result 
+          })
+        }
+        reader.readAsText(file);
+      } else {
+        message.error('仅支持上传 markdown 文件')
+      }
+    }
+  }
+
+  onSubmit = () => {
+    let {title, text, html, typeIds} = this.state
+    let uploadTime = new Date().getTime()
+    let lastModifyTime = uploadTime
+    let commentCount = 0, likeCount = 0, collectCount = 0, viewCount = 0
+    console.log({title, text, html, typeIds, uploadTime, lastModifyTime, commentCount, likeCount, collectCount, viewCount})
   }
 
   render() {
-    let { blogList, isWrite, markdown } = this.state
+    let { blogList, isWrite, text, title } = this.state
+    let limitMd: any = {
+      name: 'markdown',
+      showUploadList: false,
+      onChange(info: any) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    }
     return (
       <div className="blog">
         <div className="tab-line">
@@ -124,22 +174,28 @@ export default class Blog extends Component {
             {isWrite ? '博客列表' : '发布博客'}
             {!isWrite && <Icon type="right" />}
           </Button>
-          {isWrite && <Input placeholder="请输入标题" />}
+          {isWrite && <Input placeholder="请输入标题" value={title} />}
           {!isWrite && <Search placeholder="搜索" onSearch={this.onSearch} />}
-          {!isWrite && <Select defaultValue="0">
+          {!isWrite && <Select defaultValue="0" style={{ width: 400 }}>
             <Option value="0">最近更新 </Option>
             <Option value="1">最多评论 </Option>
             <Option value="2">最多点赞 </Option>
             <Option value="3">最多查看 </Option>
             <Option value="4">最多收藏 </Option>
           </Select>}
-          <Select defaultValue='0' style={{ width: 400 }}>
+          {!isWrite && <Select defaultValue='0' style={{ width: 400 }}>
             <Option value="0">HTML</Option>
             <Option value="1">JS</Option>
-          </Select>
-          <Upload showUploadList={false}>
-            <Button><Icon type="upload" />上传 Markdown 文件</Button>
-          </Upload>
+          </Select>}
+          {isWrite && <Select placeholder="请对博客分类" mode="multiple" style={{ width: 400 }} onChange={this.handleSelect}>
+            <Option value="0">HTML</Option>
+            <Option value="1">JS</Option>
+          </Select>}
+          <label htmlFor={"aaaa"}>
+            <span className="upload"><Icon type="upload" /> 上传 Markdown 文件</span>
+            <input style={{display:'none'}} id="aaaa" type="file" onChange={this.getFile} />
+          </label>
+          {isWrite && <Button onClick={this.onSubmit}>发布</Button>}
         </div>
         {!isWrite ? blogList.map(item => {
           let day = new Date(+item.timestamp).toLocaleDateString().split('/')
@@ -183,14 +239,14 @@ export default class Blog extends Component {
             </div>
           </div>
         }) : <div className="write-blog">
-            <ReactMarkdown
-              className="markdown-body"
-              source={markdown}
-              escapeHtml={false}
-              renderers={{
-                code: CodeBlock,
-              }}
-            />
+            <MdEditor getValue={this.getValue} value={text} />
+            {/* {!markdown ? <MdEditor getValue={this.getValue} />
+              : <ReactMarkdown
+                className="markdown-body"
+                source={markdown}
+                escapeHtml={false}
+                renderers={{ code: CodeBlock }}
+              />} */}
           </div>}
         {!isWrite && <Pagination showQuickJumper onChange={this.onChange} defaultCurrent={3} total={500} />}
       </div>
