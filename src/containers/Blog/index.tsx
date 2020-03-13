@@ -221,7 +221,7 @@ export default class Blog extends Component {
                 </div>
               </div>
             </div>
-          }) : <Empty description="没有找到您想要到博客" style={{ color: '#fff', marginTop: '10vh', fontSize: 20, lineHeight: '48px' }} />)}
+          }) : <Empty description="暂无数据" style={{ color: '#fff', marginTop: '20vh' }} />)}
           {isWrite && <div className="write-blog">
             <MdEditor getValue={this.getValue} value={text} />
           </div>}

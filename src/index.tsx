@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import Ky from './containers/Ky'
 import './index.less'
 import * as serviceWorker from './serviceWorker'
@@ -8,9 +8,7 @@ import * as serviceWorker from './serviceWorker'
 ReactDOM.render((
   <BrowserRouter>
     <React.Suspense fallback={<div>loading...</div>}>
-      <Switch>
-        <Route path='/' component={Ky}></Route>
-      </Switch>
+      <Route path='/' component={Ky}></Route>
     </React.Suspense>
   </BrowserRouter>
 ), document.getElementById('root'))

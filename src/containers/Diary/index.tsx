@@ -165,7 +165,7 @@ class DiaryHtml extends React.Component<any, any> {
               </Panel>
             })}
           </Collapse>}
-        </div> : <Empty description="对不起，您没有权限" style={{ color: '#fff', marginTop: '30vh', fontSize: 20, lineHeight: '48px' }} />}
+        </div> : <Empty description="对不起，您没有权限" style={{ color: '#fff', marginTop: '20vh' }} />}
       </>
     )
   }

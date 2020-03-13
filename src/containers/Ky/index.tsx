@@ -1,55 +1,25 @@
 import React, { Component } from 'react'
 import { Link, Switch, Route } from 'react-router-dom'
 import { Layout, Menu, Icon, Empty } from 'antd'
-import Loadable from 'react-loadable'
-import Loading from '../../components/Loading'
+import Main from '../Main';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import './index.less'
-
-let PackageBackTop = Loadable({
-  loader: () => import('../../components/BackTop'),
-  loading: Loading
-})
-let User = Loadable({
-  loader: () => import('../User'),
-  loading: Loading
-})
-let Blog = Loadable({
-  loader: () => import('../Blog'),
-  loading: Loading
-})
-let Diary = Loadable({
-  loader: () => import('../Diary'),
-  loading: Loading
-})
-let Todos = Loadable({
-  loader: () => import('../Todos'),
-  loading: Loading
-})
-// let TimeLine = Loadable({
-//   loader:()=>import('../TimeLine'),
-//   loading: Loading
-// })
-// let PictureWall = Loadable({
-//   loader:()=>import('../PictureWall'),
-//   loading: Loading
-// })
-let FootPrint = Loadable({
-  loader: () => import('../FootPrint'),
-  loading: Loading
-})
 
 const { Header, Content, Sider } = Layout
 export default class Ky extends Component<any, any> {
   state = {
     collapsed: true,
-    selectedKeys: ['user'],
+    selectedKeys: [],
   }
 
   componentWillMount() {
     NProgress.start()
     let pathname = window.location.pathname.slice(1)
+    if (pathname === '') {
+      pathname = 'user'
+      window.location.pathname = '/user'
+    } 
     this.setState({ selectedKeys: [pathname] })
   }
 
@@ -73,16 +43,11 @@ export default class Ky extends Component<any, any> {
     this.setState({ selectedKeys })
   }
 
-  renderEmpty() {
-    return <Empty description="开发中，尽情期待吧" style={{ color: '#fff', marginTop: '30vh', fontSize: 20, lineHeight: '48px' }} />
-  }
-
   render() {
     const { collapsed, selectedKeys } = this.state
     const headTitle = content[selectedKeys[0]]
     return (
       <Layout style={{ height: '100vh' }}>
-        <PackageBackTop />
         <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} className='ant-layout-sider-light'>
           <div className="logo">
             YYJ
@@ -105,15 +70,7 @@ export default class Ky extends Component<any, any> {
               <div id='stars'></div>
               <div id='stars2'></div>
               <div id='stars3'></div>
-              <Switch>
-                <Route path='/blog' component={Blog} />
-                <Route path='/diary' component={Diary} />
-                <Route path='/footPrint' component={FootPrint} />
-                <Route path='/pictureWall' component={this.renderEmpty} />
-                <Route path='/todos' component={Todos} />
-                <Route path='/user' component={User} />
-                <Route path='/message' component={this.renderEmpty} />
-              </Switch>
+              <Main />
             </div>
           </Content>
         </Layout>
