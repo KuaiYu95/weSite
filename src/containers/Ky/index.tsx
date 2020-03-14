@@ -16,7 +16,7 @@ export default class Ky extends Component<any, any> {
   static getDerivedStateFromProps() {
     NProgress.start()
     let pathname = window.location.pathname.slice(1) || localStorage.getItem('pathname')
-    if (pathname) {
+    if (pathname === '' || pathname === null) {
       pathname = 'user'
       window.location.pathname = '/user'
     } 
@@ -51,7 +51,7 @@ export default class Ky extends Component<any, any> {
           <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {
               return <Menu.Item key={it.key} onClick={() => localStorage.setItem('pathname', it.key)}>
-                <Link to={it.key}>
+                <Link to={'/' + it.key}>
                   <Icon type={it.type} />
                   <span>{it.title}</span>
                 </Link>

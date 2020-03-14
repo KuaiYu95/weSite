@@ -12,6 +12,14 @@ let Blog = Loadable({
   loader: () => import('../Blog'),
   loading: Loading
 })
+let BlogDetail = Loadable({
+  loader: () => import('../BlogDetail'),
+  loading: Loading
+})
+let Post = Loadable({
+  loader: () => import('../Post'),
+  loading: Loading
+})
 let Diary = Loadable({
   loader: () => import('../Diary'),
   loading: Loading
@@ -48,9 +56,11 @@ export default class Main extends Component<any, any> {
     return (
       <Switch>
         <Route path='/blog' component={Blog} />
+        <Route path='/post' component={confirm ? Post : this.renderEmpty} />
+        <Route path='/blog-detail/id:id' component={BlogDetail} />
         <Route path='/diary' component={confirm ? Diary : this.renderEmpty} />
-        <Route path='/footPrint' component={confirm ? FootPrint : this.renderEmpty} />
-        <Route path='/pictureWall' component={this.renderEmpty} />
+        <Route path='/foot-print' component={confirm ? FootPrint : this.renderEmpty} />
+        <Route path='/picture-wall' component={this.renderEmpty} />
         <Route path='/todos' component={Todos} />
         <Route path='/message' component={this.renderEmpty} />
         <Route path='/user' component={User} />
