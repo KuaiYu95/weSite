@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
-import { Layout, Menu, Icon, Empty } from 'antd'
+import { Link } from 'react-router-dom'
+import { Layout, Menu, Icon } from 'antd'
 import Main from '../Main';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -13,18 +13,14 @@ export default class Ky extends Component<any, any> {
     selectedKeys: [],
   }
 
-  componentWillMount() {
+  static getDerivedStateFromProps() {
     NProgress.start()
-    let pathname = window.location.pathname.slice(1)
-    if (pathname === '') {
+    let pathname = window.location.pathname.slice(1) || localStorage.getItem('pathname')
+    if (pathname) {
       pathname = 'user'
       window.location.pathname = '/user'
     } 
-    this.setState({ selectedKeys: [pathname] })
-  }
-
-  componentWillUpdate() {
-    NProgress.start()
+    return { selectedKeys: [pathname] }
   }
 
   componentDidMount() {
@@ -54,7 +50,7 @@ export default class Ky extends Component<any, any> {
           </div>
           <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {
-              return <Menu.Item key={it.key} onClick={() => localStorage.setItem('navLink', it.key)}>
+              return <Menu.Item key={it.key} onClick={() => localStorage.setItem('pathname', it.key)}>
                 <Link to={it.key}>
                   <Icon type={it.type} />
                   <span>{it.title}</span>

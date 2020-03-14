@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { Empty } from 'antd'
 import Loadable from 'react-loadable'
 import Loading from '../../components/Loading'
 
-let PackageBackTop = Loadable({
-  loader: () => import('../../components/BackTop'),
-  loading: Loading
-})
 let User = Loadable({
   loader: () => import('../User'),
   loading: Loading
@@ -24,14 +20,14 @@ let Todos = Loadable({
   loader: () => import('../Todos'),
   loading: Loading
 })
-let TimeLine = Loadable({
-  loader:()=>import('../TimeLine'),
-  loading: Loading
-})
-let PictureWall = Loadable({
-  loader:()=>import('../PictureWall'),
-  loading: Loading
-})
+// let TimeLine = Loadable({
+//   loader:()=>import('../TimeLine'),
+//   loading: Loading
+// })
+// let PictureWall = Loadable({
+//   loader:()=>import('../PictureWall'),
+//   loading: Loading
+// })
 let FootPrint = Loadable({
   loader: () => import('../FootPrint'),
   loading: Loading

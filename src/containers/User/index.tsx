@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Modal, Avatar, Icon, Input, Descriptions, Statistic, Row, Col, message, Form, Select, notification } from 'antd'
 import { getTotal, getUrl, addUrl } from '../../api'
 import './index.less'
@@ -210,36 +211,16 @@ class UrlForm extends Component<any> {
           </div>
           <div className="statistics">
             <Row type="flex" gutter={16} justify="space-around" align="middle">
-              <Col span={6}>
-                <Statistic title="博客" value={blogCount} />
-              </Col>
-              <Col span={6}>
-                <Statistic title="日记" value={dailyCount} />
-              </Col>
-              <Col span={6}>
-                <Statistic title="足迹" value={footCount} />
-              </Col>
-              <Col span={6}>
-                <Statistic title="照片" value={photoCount} />
-              </Col>
-              <Col span={6}>
-                <Statistic title="留言板" value={0} />
-              </Col>
-              <Col span={6}>
-                <Statistic title="访问数" value={0} />
-              </Col>
-              <Col span={6}>
-                <Statistic title="待办事项" value={todoCount} />
-              </Col>
-              <Col span={6}>
-                <Statistic title="收藏链接" value={urlCount} />
-              </Col>
-              <Col span={12}>
-                <Statistic title="博客点赞数" value={0} />
-              </Col>
-              <Col span={12}>
-                <Statistic title="博客评论数" value={0} />
-              </Col>
+              <Col onClick={() => localStorage.setItem('pathname', 'blog')} span={6}><Link to="blog"><Statistic title="博客" value={blogCount} /></Link></Col>
+              <Col onClick={() => localStorage.setItem('pathname', 'diary')} span={6}><Link to="dairy"><Statistic title="日记" value={dailyCount} /></Link></Col>
+              <Col onClick={() => localStorage.setItem('pathname', 'footPrint')} span={6}><Link to="footPrint"><Statistic title="足迹" value={footCount} /></Link></Col>
+              <Col onClick={() => localStorage.setItem('pathname', 'pictureWall')} span={6}><Link to="pictureWall"><Statistic title="照片" value={photoCount} /></Link></Col>
+              <Col onClick={() => localStorage.setItem('pathname', 'message')} span={6}><Link to="message"><Statistic title="留言板" value={0} /></Link></Col>
+              <Col span={6}><Statistic title="访问数" value={0} /></Col>
+              <Col onClick={() => localStorage.setItem('pathname', 'todos')} span={6}><Link to="todos"><Statistic title="待办事项" value={todoCount} /></Link></Col>
+              <Col onClick={() => localStorage.setItem('pathname', 'user')} span={6}><Link to="user"><Statistic title="收藏链接" value={urlCount} /></Link></Col>
+              <Col span={12}><Statistic title="博客点赞数" value={0} /></Col>
+              <Col span={12}><Statistic title="博客评论数" value={0} /></Col>
             </Row>
           </div>
         </div>
