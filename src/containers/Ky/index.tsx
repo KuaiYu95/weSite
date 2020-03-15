@@ -2,33 +2,35 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 import Main from '../Main';
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
 import './index.less'
 
 const { Header, Content, Sider } = Layout
 export default class Ky extends Component<any, any> {
+  pathname = ''
+
   state = {
     collapsed: true,
     selectedKeys: [],
   }
 
-  static getDerivedStateFromProps() {
-    NProgress.start()
-    let pathname = window.location.pathname.slice(1) || localStorage.getItem('pathname')
-    if (pathname === '' || pathname === null) {
-      pathname = 'user'
+  componentWillMount() {
+    let pathname1 = window.location.pathname.slice(1)
+    let pathname2 = localStorage.getItem('pathname')
+    if (pathname1 === '' && pathname2 === null) {
+      this.pathname = 'user'
       window.location.pathname = '/user'
-    } 
-    return { selectedKeys: [pathname] }
-  }
-
-  componentDidMount() {
-    NProgress.done()
-  }
-
-  componentDidUpdate() {
-    NProgress.done()
+      localStorage.setItem('pathname', 'user')
+    } else if (pathname1 !== pathname2) {
+      if (pathname1) {
+        this.pathname = pathname1
+        localStorage.setItem('pathname', pathname1)
+      } else if (pathname2) {
+        this.pathname = pathname2
+        localStorage.setItem('pathname', pathname2)
+      }
+      window.location.pathname = '/' + this.pathname
+    }
+    this.setState({ selectedKeys: [this.pathname] })
   }
 
   onCollapse = (collapsed: boolean) => {

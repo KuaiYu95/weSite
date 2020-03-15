@@ -22,18 +22,10 @@ export default class BlogDetail extends Component {
   handleViewBlog = (_id: string) => {
     let _this = this
     getBlogDetail({ _id }).then((res: any) => {
-      console.log(res)
       let { success, data } = res.data
       let { title, _id, html, text } = data
-      console.log(text.toString())
       if (success) {
-        _this.setState({ 
-          title, 
-          _id, 
-          html, 
-          text: text.toString(), 
-          isView: true 
-        })
+        _this.setState({ title, _id, html, text, isView: true })
       } else {
         message.error('访问接口失败，请检查网络')
       }
@@ -48,10 +40,10 @@ export default class BlogDetail extends Component {
           <div className="info">
             <div>{title}</div>
           </div>
-          <div className="md">
+          <div className="markd">
             <ReactMarkdown
               className="markdown-body"
-              source={text.toString()}
+              source={text}
               escapeHtml={false}
               renderers={{ code: CodeBlock }}
             />
