@@ -85,7 +85,7 @@ export default class Blog extends Component {
           let time = moment(+item.lastModifyTime).format('YYYY-MM-DD kk:mm:ss')
           return <div className="blog-contain" style={{ margin: '16px auto 0' }} key={item._id}>
             <div className="blog-header">
-              <Link to={'/blog-detail/id=' + item._id}><div className="blog-title"><Icon type="medium" /> {item.title}</div></Link>
+              <Link to={'/blogdetail/id=' + item._id}><div className="blog-title"><Icon type="medium" /> {item.title}</div></Link>
               <div className="blog-tags">{item.typeIds.map((it: string, index: number) => {
                 return <span className="blog-tags-item" key={index}><Tag color="#637C8F">{it}</Tag></span>
               })}</div>

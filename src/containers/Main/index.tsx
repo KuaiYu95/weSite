@@ -57,10 +57,10 @@ export default class Main extends Component<any, any> {
       <Switch>
         <Route path='/blog' component={Blog} />
         <Route path='/post' component={confirm ? Post : this.renderEmpty} />
-        <Route path='/blog-detail/id:id' component={BlogDetail} />
+        <Route path='/blogdetail/id:id' component={BlogDetail} />
         <Route path='/diary' component={confirm ? Diary : this.renderEmpty} />
-        <Route path='/foot-print' component={confirm ? FootPrint : this.renderEmpty} />
-        <Route path='/picture-wall' component={this.renderEmpty} />
+        <Route path='/footprint' component={confirm ? FootPrint : this.renderEmpty} />
+        <Route path='/picturewall' component={this.renderEmpty} />
         <Route path='/todos' component={Todos} />
         <Route path='/message' component={this.renderEmpty} />
         <Route path='/user' component={User} />

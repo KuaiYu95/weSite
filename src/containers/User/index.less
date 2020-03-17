@@ -1,9 +1,9 @@
 .my-home {
-  position: relative;
+  display: flex;
   height: 100%;
   padding: 24px;
   .article-list {
-    width: 950px;
+    flex-grow: 1;
     padding: 16px;
     background-color: #fff;
     height: calc(~'100% - 16px');
@@ -64,11 +64,9 @@
   }
   
   .side-bar {
-    position: absolute;
-    right: 24px;
-    top: 24px;
     z-index: 2;
-    width: 23%;
+    margin-left: 24px;
+    max-width: 400px;
   
     .search {
       transition: 0.5s;

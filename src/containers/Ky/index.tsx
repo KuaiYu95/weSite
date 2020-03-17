@@ -10,7 +10,7 @@ export default class Ky extends Component<any, any> {
 
   state = {
     collapsed: true,
-    selectedKeys: [],
+    selectedKeys: '',
   }
 
   componentWillMount() {
@@ -29,8 +29,9 @@ export default class Ky extends Component<any, any> {
         localStorage.setItem('pathname', pathname2)
       }
       window.location.pathname = '/' + this.pathname
+    } else {
+      this.setState({ selectedKeys: pathname2 })
     }
-    this.setState({ selectedKeys: [this.pathname] })
   }
 
   onCollapse = (collapsed: boolean) => {
@@ -38,19 +39,19 @@ export default class Ky extends Component<any, any> {
   }
 
   handleClick = ({ selectedKeys }: any) => {
-    this.setState({ selectedKeys })
+    this.setState({ selectedKeys: selectedKeys[0] })
   }
 
   render() {
     const { collapsed, selectedKeys } = this.state
-    const headTitle = content[selectedKeys[0]]
+    const headTitle = content[selectedKeys]
     return (
       <Layout style={{ height: '100vh' }}>
         <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} className='ant-layout-sider-light'>
           <div className="logo">
             YYJ
           </div>
-          <Menu defaultSelectedKeys={selectedKeys} mode="inline" onSelect={this.handleClick}>
+          <Menu defaultSelectedKeys={[selectedKeys]} mode="inline" onSelect={this.handleClick}>
             {menuList.map((it: any) => {
               return <Menu.Item key={it.key} onClick={() => localStorage.setItem('pathname', it.key)}>
                 <Link to={'/' + it.key}>
@@ -91,11 +92,11 @@ const menuList = [
     type: "read",
     title: "日记",
   }, {
-    key: "footPrint",
+    key: "footprint",
     type: "flag",
     title: "足迹",
   }, {
-    key: "pictureWall",
+    key: "picturewall",
     type: "picture",
     title: "照片墙"
   }, {
